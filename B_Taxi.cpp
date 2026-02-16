@@ -2,11 +2,12 @@
 #include <bits/stdc++.h>
 using namespace std;
 
+
 // --- Macros ---
 #define ll long long
 #define pb push_back
 #define all(x) (x).begin(), (x).end()
-#define cin(x) for(auto &i : (x)) cin >> i;
+#define cin(x) for(int &i : (x)) cin >> i;
 #define fastio ios_base::sync_with_stdio(false); cin.tie(NULL); cout.tie(NULL);
 #define print(x) cout << (x) << endl;
 #define print_arr(x) for(int &i : (x)) cout << (x) << endl; cout<<endl;
@@ -38,17 +39,36 @@ void solve() {
     
     vector<int> b(n); 
     cin(b);
+    int one =0, two =0 , three=0, four = 0;
+    int ans =0;
+    for(int i : b){
+        if(i==1) one++;
+        else if(i==2) two++;
+        else if(i==3) three++;
+        else four++;
+    }
 
+    ans = four+three;
+    one = max(0 , one -three);
+
+    ans += two/2;
+
+    two = two-2*(two/2);
+
+    ans+= ((2*two)+one+3)/4;
+   
     // Solve logic here
+
+    print(ans);
     
 }
 
 int main() {
     fastio;
-    int t = 1;
-    cin >> t; 
-    while (t--) {
+    // int t = 1;
+    // cin >> t; 
+    // while (t--) {
         solve();
-    }
+    // }
     return 0;
 }

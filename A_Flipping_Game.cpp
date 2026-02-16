@@ -33,22 +33,34 @@ long long power(long long base, long long exp) {
 }
 // --- Logic ---
 void solve() {
-    int n;
+    ll n;
     if (!(cin >> n)) return;
     
-    vector<int> b(n); 
-    cin(b);
+    vector<ll> b(n+1); 
+    // cin(b);
 
+    for(ll i=1;i<=n;i++) cin>>b[i];
+    vector<vector<ll>>dp(n+2,vector<ll>(n+1,0));
+    ll ans =0;
+    for(ll j=n;j>=1;j--){
+        for(ll i=n;i>=1;i--){
+            dp[i][j] = dp[i+1][j] + (b[i] == 0 ? 1 : -1);
+            cout<<"I : "<< i << " J  : "<< j << "  :- "<<dp[i][j]<<endl;
+            ans = max(ans, dp[i][j]);
+        }
+    }
+
+    print(ans);
     // Solve logic here
     
 }
 
 int main() {
     fastio;
-    int t = 1;
-    cin >> t; 
-    while (t--) {
+    // int t = 1;
+    // cin >> t; 
+    // while (t--) {
         solve();
-    }
-    return 0;
+    // }
+    // return 0;
 }
