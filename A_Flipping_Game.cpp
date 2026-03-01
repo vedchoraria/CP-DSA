@@ -32,27 +32,27 @@ long long power(long long base, long long exp) {
     return res;
 }
 // --- Logic ---
-void solve() {
-    ll n;
+int flip(vector<int> &b, int start, int end, int n){
+    int ones = 0;
+    for(int i = 0; i<start; i++) 
+        ones += b[i];
+    for(int i = start; i<=end; i++)
+        ones += (b[i] == 0) ? 1 : 0;
+    for(int i = end+1; i<n; i++) ones += b[i];
+    return ones;
+}
+void solve(){
+    int n, mx = 0;
     if (!(cin >> n)) return;
-    
-    vector<ll> b(n+1); 
-    // cin(b);
-
-    for(ll i=1;i<=n;i++) cin>>b[i];
-    vector<vector<ll>>dp(n+2,vector<ll>(n+1,0));
-    ll ans =0;
-    for(ll j=n;j>=1;j--){
-        for(ll i=n;i>=1;i--){
-            dp[i][j] = dp[i+1][j] + (b[i] == 0 ? 1 : -1);
-            cout<<"I : "<< i << " J  : "<< j << "  :- "<<dp[i][j]<<endl;
-            ans = max(ans, dp[i][j]);
+    vector<int>b(n); 
+    cin(b);
+    for(int i=0; i<n; i++){
+        for(int j=i; j<n; j++){
+            int val = flip(b, i, j, n);
+            mx = max(mx,val);
         }
     }
-
-    print(ans);
-    // Solve logic here
-    
+    print(mx);
 }
 
 int main() {
