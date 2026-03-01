@@ -9,7 +9,7 @@ using namespace std;
 #define cin(x) for(auto &i : (x)) cin >> i;
 #define fastio ios_base::sync_with_stdio(false); cin.tie(NULL); cout.tie(NULL);
 #define print(x) cout << (x) << endl;
-#define print_arr(x) for(int &i : (x)) cout << (x) << endl; cout<<endl;
+#define print_arr(x) for(int &i : (x)) cout << i << " "; cout<<endl;
 
 
 
@@ -33,19 +33,36 @@ long long power(long long base, long long exp) {
 }
 // --- Logic ---
 void solve() {
-    ll n;
+    int n;
     if (!(cin >> n)) return;
     
-    ll x,y;
-    cin>>x>>y;
-    ll lc = lcm(x,y);
-    // ll j =1, k =n;
-    ll add = (n/x)-(n/lc);
-    ll sub = (n/y)-(n/lc);
-    ll s = (n*(n+1)/2)-((n-add)*(n-add+1)/2);
-    ll e = sub*(sub+1)/2;
+    vector<int> b(n*(n-1)/2); 
+    cin(b);
 
-    print(s-e);
+    unordered_map<int,int>mpp;
+    int ma =0;
+    for(int i=0;i<b.size();i++) {mpp[b[i]]++;
+        ma = max(ma, b[i]);
+        // cout<<b[i]<<endl;
+    }
+
+    vector<int>ans(n, INT_MAX);
+    
+    for(auto it : mpp){
+        int x = it.first;
+        int y = min(it.second,n-1);
+        while(y>0 && ans[y] != INT_MAX) y--;
+        cout<<x<<" : "<<y<<endl;
+        ans[y] = x;
+    }
+
+    for(int &i : ans){
+        if(i == INT_MAX) i=ma;
+    }
+    print_arr(ans);
+
+
+
 
     // Solve logic here
     
