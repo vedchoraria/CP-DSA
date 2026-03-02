@@ -9,7 +9,7 @@ using namespace std;
 #define cin(x) for(auto &i : (x)) cin >> i;
 #define fastio ios_base::sync_with_stdio(false); cin.tie(NULL); cout.tie(NULL);
 #define print(x) cout << (x) << endl;
-#define print_arr(x) for(int &i : (x)) cout << i << " "; cout<<endl;
+#define print_arr(x) for(int &i : (x)) cout << i << endl; cout<<endl;
 
 
 
@@ -31,34 +31,48 @@ long long power(long long base, long long exp) {
     }
     return res;
 }
+//LCM FUnc
 // --- Logic ---
 void solve() {
-
-  int n;cin>>n;
-//   vector<int> ans;
-  int az=(n*(n-1))/2;
-  vector<int> in(n*(n-1)/2);
- cin(in);
-  sort(all(in));
-  int x = n - 1, i = 0;
- 
-	while (x > 0) {
-			cout << in[i] << " "; 
- 
-			i += x; 
-			x--;
-		}
- 
-		cout << "1000000000\n";
+    long long n,k,x;
+    cin>>n>>k>>x;
+    
+    vector<long long>a(n);
+    for(auto &i:a) cin>>i;
+    
+    sort(a.begin(),a.end());
+    
+    vector<long long>gaps;
+    long long groups=1;
+    
+    for(int i=1;i<n;i++){
+        long long d=a[i]-a[i-1];
+        if(d>x){
+            groups++;
+            gaps.push_back((d-1)/x);
+        }
+    }
+    
+    sort(gaps.begin(),gaps.end());
+    
+    for(long long g:gaps){
+        if(k>=g){
+            k-=g;
+            groups--;
+        }
+        else break;
+    }
+    
+    cout<<groups;
     
 }
 
 int main() {
     fastio;
-    int t = 1;
-    cin >> t; 
-    while (t--) {
+    // int t = 1;
+    // cin >> t; 
+    // while (t--) {
         solve();
-    }
-    return 0;
+    // }
+    // return 0;
 }

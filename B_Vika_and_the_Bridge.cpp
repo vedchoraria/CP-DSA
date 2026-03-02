@@ -9,7 +9,7 @@ using namespace std;
 #define cin(x) for(auto &i : (x)) cin >> i;
 #define fastio ios_base::sync_with_stdio(false); cin.tie(NULL); cout.tie(NULL);
 #define print(x) cout << (x) << endl;
-#define print_arr(x) for(int &i : (x)) cout << i << " "; cout<<endl;
+#define print_arr(x) for(int &i : (x)) cout << i << endl; cout<<endl;
 
 
 
@@ -31,26 +31,53 @@ long long power(long long base, long long exp) {
     }
     return res;
 }
+//LCM FUnc
 // --- Logic ---
 void solve() {
+    int n, k;
+    cin >> n >> k;
 
-  int n;cin>>n;
-//   vector<int> ans;
-  int az=(n*(n-1))/2;
-  vector<int> in(n*(n-1)/2);
- cin(in);
-  sort(all(in));
-  int x = n - 1, i = 0;
- 
-	while (x > 0) {
-			cout << in[i] << " "; 
- 
-			i += x; 
-			x--;
-		}
- 
-		cout << "1000000000\n";
-    
+    vector<int> c(n);
+    for(auto &x : c) cin >> x;
+
+    vector<vector<int>> pos(k+1);
+
+    for(int i=0;i<n;i++)
+        pos[c[i]].push_back(i+1);
+
+    int ans = INT_MAX;
+
+    for(int color=1;color<=k;color++){
+
+        vector<int> p;
+        p.push_back(0);
+
+        for(int x:pos[color])
+            p.push_back(x);
+
+        p.push_back(n+1);
+
+        int largest = 0;
+        int second = 0;
+
+        for(int i=1;i<p.size();i++){
+            int gap = p[i]-p[i-1]-1;
+
+            if(gap > largest){
+                second = largest;
+                largest = gap;
+            }
+            else if(gap > second){
+                second = gap;
+            }
+        }
+
+        int cur = max(second, (largest+1)/2);
+
+        ans = min(ans, cur);
+    }
+
+    cout << ans << "\n";
 }
 
 int main() {

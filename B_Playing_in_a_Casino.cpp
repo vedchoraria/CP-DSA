@@ -1,49 +1,49 @@
-//Author : VED CHORARIA
 #include <bits/stdc++.h>
 using namespace std;
 
-// --- Macros ---
-#define ll long long
-#define pb push_back
-#define all(x) (x).begin(), (x).end()
-#define cin(x) for(int &i : (x)) cin >> i;
-#define fastio ios_base::sync_with_stdio(false); cin.tie(NULL); cout.tie(NULL);
-#define print(x) cout << (x) << endl;
+int main()
+{
+	int t;
+	cin >> t; 
 
-// --- Constants ---
-const int MOD = 1e9 + 7;
-const ll INF = 1e18; // Changed to ll to match 1e18
+	while (t--)
+	{
+		int n, m;
+		cin >> n >> m; 
 
-// --- Logic ---
-void solve() {
-    int n;
-    if (!(cin >> n)) return;
-    int m;
-    cin>>m;
-    vector<vector<int>>b(m,vector<int>(n));
-    for(auto it : b) cin(it);
-    ll ans = 0;
-    for(int j = 0; j<m; j++) {
-        sort(b[j].begin(), b[j].end());
-        for(int i = 0; i<n;i++) {
-            // How many elements are smaller than this (indices 0 to i-1)? -> i
-            // How many elements are larger than this (indices i+1 to n-1)? -> (n - 1 - i)
-            // Coefficient = count_smaller - count_larger
-            ll coeff = i - (n - 1 - i);
-            
-            ans += (ll)b[j][i] * coeff;
-        }
-    }
-    print(ans);
-    
+		
+		vector<vector<long long>> v(m, vector<long long>(n));
+
+		
+		for (int j = 0; j < n; j++)
+		{
+			for (int i = 0; i < m; i++)
+			{
+				cin >> v[i][j]; 
+			}
+		}
+		// Sort each row of the rotated matrix
+		for (int i = 0; i < m; i++)
+		{
+			sort(v[i].begin(), v[i].end()); // Sort the i-th row
+		} // Time complexity: O(m * (n log n))
+
+		long long ans = 0; // Initialize the total winnings
+
+		// Calculate the total winnings for all games
+		for (int i = 0; i < m; i++)
+		{
+			for (int j = 0; j < n; j++)
+			{
+				// Calculate the contribution of v[i][j] to the total winnings
+				ans -= (v[i][j] * (n - j - 1));
+				ans += (v[i][j] * j);
+			}
+		} // Time complexity: O(n * m)
+
+		cout << ans << "\n"; // Output the total winnings for the current test case
+	}
 }
 
-int main() {
-    fastio;
-    int t = 1;
-    cin >> t; 
-    while (t--) {
-        solve();
-    }
-    return 0;
-}
+// Time Complexity (TC): O(m * (n log n))
+// Space Complexity (SC): O(n * m)

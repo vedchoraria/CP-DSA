@@ -9,7 +9,7 @@ using namespace std;
 #define cin(x) for(auto &i : (x)) cin >> i;
 #define fastio ios_base::sync_with_stdio(false); cin.tie(NULL); cout.tie(NULL);
 #define print(x) cout << (x) << endl;
-#define print_arr(x) for(int &i : (x)) cout << i << " "; cout<<endl;
+#define print_arr(x) for(int &i : (x)) cout << i << endl; cout<<endl;
 
 
 
@@ -31,25 +31,15 @@ long long power(long long base, long long exp) {
     }
     return res;
 }
+//LCM FUnc
 // --- Logic ---
 void solve() {
+    int n;
+    if (!(cin >> n)) return;
+    int k; cin>>k;
+    print(power(n,k));
 
-  int n;cin>>n;
-//   vector<int> ans;
-  int az=(n*(n-1))/2;
-  vector<int> in(n*(n-1)/2);
- cin(in);
-  sort(all(in));
-  int x = n - 1, i = 0;
- 
-	while (x > 0) {
-			cout << in[i] << " "; 
- 
-			i += x; 
-			x--;
-		}
- 
-		cout << "1000000000\n";
+    // Solve logic here
     
 }
 

@@ -9,7 +9,7 @@ using namespace std;
 #define cin(x) for(auto &i : (x)) cin >> i;
 #define fastio ios_base::sync_with_stdio(false); cin.tie(NULL); cout.tie(NULL);
 #define print(x) cout << (x) << endl;
-#define print_arr(x) for(int &i : (x)) cout << i << " "; cout<<endl;
+#define print_arr(x) for(int &i : (x)) cout << i << endl; cout<<endl;
 
 
 
@@ -31,25 +31,42 @@ long long power(long long base, long long exp) {
     }
     return res;
 }
+//LCM FUnc
 // --- Logic ---
-void solve() {
+void check(vector<ll>h , ll len){
+    ll n = h.size() , ans = 0;
+    for(ll i =0;i<n;i++){
+        if(h[i] > len) break;
+        ans+= h[i];
+    }
 
-  int n;cin>>n;
-//   vector<int> ans;
-  int az=(n*(n-1))/2;
-  vector<int> in(n*(n-1)/2);
- cin(in);
-  sort(all(in));
-  int x = n - 1, i = 0;
- 
-	while (x > 0) {
-			cout << in[i] << " "; 
- 
-			i += x; 
-			x--;
-		}
- 
-		cout << "1000000000\n";
+    cout<<ans<<" ";
+}
+void solve() {
+    ll n;
+    if (!(cin >> n)) return;
+    ll k;
+    cin>>k;
+    vector<ll>h(n), temp(k);
+    cin(h); 
+    cin(temp);
+    vector<ll>prefmax(n),prefsum(n);
+    prefmax[0] = h[0], prefsum[0] = h[0];
+
+    for(ll i= 1;i<n;i++){
+        prefmax[i] = max(prefmax[i-1], h[i]);
+        prefsum[i] += prefsum[i-1]+ h[i];
+
+    }
+    for(ll i=0;i<k;i++){
+        int pos = upper_bound(prefmax.begin(), prefmax.end(), temp[i])-prefmax.begin()-1;
+        if(pos<0) cout<<0 << " ";
+        else cout<<prefsum[pos]<<" ";
+    }
+
+    cout<<endl;
+
+    // Solve logic here
     
 }
 

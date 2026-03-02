@@ -9,7 +9,7 @@ using namespace std;
 #define cin(x) for(auto &i : (x)) cin >> i;
 #define fastio ios_base::sync_with_stdio(false); cin.tie(NULL); cout.tie(NULL);
 #define print(x) cout << (x) << endl;
-#define print_arr(x) for(int &i : (x)) cout << i << " "; cout<<endl;
+#define print_arr(x) for(int &i : (x)) cout << i << endl; cout<<endl;
 
 
 
@@ -31,25 +31,28 @@ long long power(long long base, long long exp) {
     }
     return res;
 }
+//LCM FUnc
 // --- Logic ---
 void solve() {
+  int n; cin>>n;
+  int x;cin>>x;
+  vector<int>v; v.push_back(x);
+  for(int i=1; i<n; i++){
+    cin>>x;
+    if(v.back() != x) v.pb(x);
+  }
+  int sz = v.size();
+  if(sz == 1){
+    cout<<1<<endl;
+    return;
+  }
+  int c = 2;
+  for(int i=1; i<sz -1; i++){
+    if( (v[i-1] < v[i] && v[i] > v[i+1] ) ||
+        (v[i-1] > v[i] && v[i] < v[i+1] )) c++;
+  }
+  cout<<c<<endl;
 
-  int n;cin>>n;
-//   vector<int> ans;
-  int az=(n*(n-1))/2;
-  vector<int> in(n*(n-1)/2);
- cin(in);
-  sort(all(in));
-  int x = n - 1, i = 0;
- 
-	while (x > 0) {
-			cout << in[i] << " "; 
- 
-			i += x; 
-			x--;
-		}
- 
-		cout << "1000000000\n";
     
 }
 
