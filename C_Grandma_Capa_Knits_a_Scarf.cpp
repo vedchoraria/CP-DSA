@@ -36,20 +36,34 @@ long long power(long long base, long long exp) {
 void solve() {
     int n;
     if (!(cin >> n)) return;
-    int s; cin>>s;
-    vector<int> b(n); 
-    cin(b);
-    vector<int>pre(n);
-    pre[0] = (b[0] == 1) ? 1: 0;
-    for(int i=1;i<n;i++)
-    pre[i] = pre[i-1] + (b[0] == 1) ? 1 : 0;
+    string s; cin>>s;
+    int ans = INT_MAX;
+    vector<int>alpa(26,0);
+    for(int k=0;k<26;k++){
+        int cnt =0; int j = n-1 , i= 0;
+        bool valid = true;
+        while(i<j){
+            if(s[i] == s[j]){
+                i++; j--;
+                continue;
+            }
+            else if(s[i] == k+'a'){
+                i++; cnt++;
+            }
+            else if(s[j] == k+'a'){
+                j--; cnt++;
+            }
+            else {break; valid = false;}
 
-    int l =0 , h = n-1;
-    while(l<h){
-        int mid = (l+h)/2;
-        if(pre[mid]>=s) l=mid+1;
-        else h = mid; 
+
+        }
+        if(valid){
+        ans = min(ans, cnt);}
+
+
     }
+
+    print(ans);
 
     // Solve logic here
     
