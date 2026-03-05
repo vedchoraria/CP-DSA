@@ -34,26 +34,54 @@ long long power(long long base, long long exp) {
 //LCM FUnc
 // --- Logic ---
 void solve() {
-    int n;
+    ll n;
     if (!(cin >> n)) return;
-    int s; cin>>s;
-    vector<int> b(n); 
+    
+    vector<ll> b(n); 
     cin(b);
-    /// FIrst COnd total sum < s , return -1 
-    int tot =0;
-    for(int &i : b) tot+=i;
-    if(tot<s){cout<<-1<<endl; return;}
-
-    int l =0 , sum =0 , len =0;
-    for(int r=0 ; r<n;r++){
-        sum += b[r];
-        while(sum > s){
-            sum -= b[l];
-            l++;
+    ll ops =0;
+    vector<vector<ll>>xyz;
+    ll j = n-2;
+    ll mi = b[j] , ma = b[j+1];
+    ll miIn = j , maIn = j+1;
+    if(mi>ma){
+        print(-1); return;
+    }
+    for(j;j >=0 ;j--){
+        
+        if(b[j] > b[j+1]) {
+            b[j] = mi - ma;
+            if(b[j] >= 10e18) b[j] = 10e18-1;
+            ops++;
+            // cout<<j+1 << " " << miIn +1<<" " << maIn +1<<endl;
+            xyz.pb( {j+1 , miIn +1 , maIn +1} );
         }
-        if(sum == s)len = max(len , r-l+1);
-    }   
-    print(n-len);
+
+        if(b[j] > b[j+1]){
+            print(-1); return;
+        }
+
+        if(b[j] < mi){
+            mi = b[j];
+            miIn = j;
+        }
+        if(b[j] > ma){
+            ma = b[j];
+            maIn = j;
+        }
+
+
+
+    }
+
+    print(ops);
+    for(auto it : xyz){
+        for(ll i : it){
+            cout<<i<<" ";
+        }
+
+        cout<<endl;
+    }
 
     // Solve logic here
     

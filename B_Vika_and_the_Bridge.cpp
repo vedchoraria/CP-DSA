@@ -56,6 +56,7 @@ void solve() {
             p.push_back(x);
 
         p.push_back(n+1);
+        if(p.size() <=3) continue;
 
         int largest = 0;
         int second = 0;
@@ -73,7 +74,7 @@ void solve() {
         }
 
         int cur = max(second, (largest+1)/2);
-
+        // cout<<color<<" : "<<cur<<endl;
         ans = min(ans, cur);
     }
 

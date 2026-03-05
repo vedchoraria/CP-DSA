@@ -33,27 +33,47 @@ long long power(long long base, long long exp) {
 }
 //LCM FUnc
 // --- Logic ---
-void solve() {
-    int n;
-    if (!(cin >> n)) return;
-    int s; cin>>s;
-    vector<int> b(n); 
-    cin(b);
-    /// FIrst COnd total sum < s , return -1 
-    int tot =0;
-    for(int &i : b) tot+=i;
-    if(tot<s){cout<<-1<<endl; return;}
+void a(vector<ll> &arr , ll &sum , vector<bool> &boccur, ll &extra){
+    ll i ,x; cin>>i>>x; i--;
+    if(boccur[i]){
+        sum -= extra; sum += x;
+        arr[i] = x;
+        boccur[i] = false; print(sum);
+        return;
+    }
+    sum -= arr[i];
+    arr[i] = x; 
+    sum += x;
+    print(sum);
+}
+void b(vector<ll>& arr , ll &sum , vector<bool> &boccur, ll &extra){
+    ll x; cin>>x;
+    ll n = arr.size();
 
-    int l =0 , sum =0 , len =0;
-    for(int r=0 ; r<n;r++){
-        sum += b[r];
-        while(sum > s){
-            sum -= b[l];
-            l++;
-        }
-        if(sum == s)len = max(len , r-l+1);
-    }   
-    print(n-len);
+    boccur = vector<bool>(n,true);
+    extra = x;
+    sum = n*x;
+    print(sum);
+}
+void solve() {
+    ll n;
+    if (!(cin >> n)) return;
+
+    ll q; cin>>q;
+    vector<bool> boccur(n,false); ll extra = 0;
+    vector<ll>arr(n);
+    cin(arr); ll sum =0;
+    for(ll &i : arr) sum += i;
+    while(q--){
+        ll t; cin>>t;
+       
+        if(t== 1) a(arr , sum , boccur , extra);
+        else b(arr , sum , boccur , extra);
+
+
+        // for(bool i: boccur) cout<<i<<" ";
+        // cout<<endl;
+    }
 
     // Solve logic here
     
@@ -65,10 +85,10 @@ int main() {
     // freopen("input.txt", "r", stdin);
     // freopen("output.txt", "w", stdout);
     // #endif
-    int t = 1;
-    cin >> t; 
-    while (t--) {
+    // int t = 1;
+    // cin >> t; 
+    // while (t--) {
         solve();
-    }
+    // }
     return 0;
 }

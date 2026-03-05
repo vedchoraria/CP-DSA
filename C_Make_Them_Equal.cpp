@@ -5,7 +5,7 @@ using namespace std;
 // --- Macros ---
 #define ll long long
 #define pb push_back
-#define all(x) (x).begin(), (x).end()
+#define all(x) x.begin(), x.end()
 #define cin(x) for(auto &i : (x)) cin >> i;
 #define fastio ios_base::sync_with_stdio(false); cin.tie(NULL); cout.tie(NULL);
 #define print(x) cout << (x) << endl;
@@ -33,32 +33,43 @@ long long power(long long base, long long exp) {
 }
 //LCM FUnc
 // --- Logic ---
-void solve() {
-    int n;
-    if (!(cin >> n)) return;
-    int s; cin>>s;
-    vector<int> b(n); 
-    cin(b);
-    /// FIrst COnd total sum < s , return -1 
-    int tot =0;
-    for(int &i : b) tot+=i;
-    if(tot<s){cout<<-1<<endl; return;}
-
-    int l =0 , sum =0 , len =0;
-    for(int r=0 ; r<n;r++){
-        sum += b[r];
-        while(sum > s){
-            sum -= b[l];
-            l++;
-        }
-        if(sum == s)len = max(len , r-l+1);
-    }   
-    print(n-len);
-
-    // Solve logic here
-    
+void solve(){
+   //your code starts from her
+   ll n;
+   char c;
+   cin>>n>>c;
+ 
+   string s;
+   cin>>s;
+   
+   ll val = count(all(s),c);
+   ll notval = n- val;
+   if(val==n){
+   	cout<<0<<endl;
+   	return;
+   }
+   
+   for(ll i=1;i<n+1;i++){
+   	ll cnt = 0;
+   	for(ll j = i;j<n+1;j+=i){
+   		if(s[j-1]!=c ){
+   			cnt++;
+   		}
+   	}
+   	if(cnt == 0){
+   		cout<<1<<endl;
+   		cout<<i<<endl;
+   		return;
+   	}
+   	
+   }
+   
+   cout<<2<<endl;
+   cout<<n<<" "<<(n-1)<<endl;
+   
+   
+   
 }
-
 int main() {
     fastio;
     // #ifndef ONLINE_JUDGE

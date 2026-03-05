@@ -34,28 +34,23 @@ long long power(long long base, long long exp) {
 //LCM FUnc
 // --- Logic ---
 void solve() {
-    int n;
+    ll n;
     if (!(cin >> n)) return;
-    int s; cin>>s;
-    vector<int> b(n); 
+    ll x; cin>>x;
+
+    vector<ll> b(n); 
     cin(b);
-    /// FIrst COnd total sum < s , return -1 
-    int tot =0;
-    for(int &i : b) tot+=i;
-    if(tot<s){cout<<-1<<endl; return;}
-
-    int l =0 , sum =0 , len =0;
-    for(int r=0 ; r<n;r++){
-        sum += b[r];
-        while(sum > s){
-            sum -= b[l];
-            l++;
-        }
-        if(sum == s)len = max(len , r-l+1);
-    }   
-    print(n-len);
-
-    // Solve logic here
+    sort(b.begin() , b.end());
+    ll ans =0;
+    ll sum =0;
+    for(ll i =0;i<n;i++){
+        sum += b[i];
+        if(sum>x) break;
+        ll val = (x-sum)/(i+1) +1;
+        // if(val<0) break;
+        ans += max(0LL, val);
+    }
+    print(ans);
     
 }
 

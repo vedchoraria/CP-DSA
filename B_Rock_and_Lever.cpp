@@ -5,7 +5,7 @@ using namespace std;
 // --- Macros ---
 #define ll long long
 #define pb push_back
-#define all(x) (x).begin(), (x).end()
+#define all(x) x.begin(), x.end()
 #define cin(x) for(auto &i : (x)) cin >> i;
 #define fastio ios_base::sync_with_stdio(false); cin.tie(NULL); cout.tie(NULL);
 #define print(x) cout << (x) << endl;
@@ -31,29 +31,38 @@ long long power(long long base, long long exp) {
     }
     return res;
 }
+ll findMaxBitPosition(ll n) {
+    if (n == 0) {
+        return 0; // No set bits
+    }
+    ll position = 0;
+    while (n != 0) {
+        n >>= 1;      // Right shift n by 1
+        position++;   // Increment position counter
+    }
+    return position;
+}
+
 //LCM FUnc
 // --- Logic ---
 void solve() {
-    int n;
+    ll n;
     if (!(cin >> n)) return;
-    int s; cin>>s;
-    vector<int> b(n); 
+    
+    vector<ll> b(n); 
     cin(b);
-    /// FIrst COnd total sum < s , return -1 
-    int tot =0;
-    for(int &i : b) tot+=i;
-    if(tot<s){cout<<-1<<endl; return;}
+    ll ans =0;
+    vector<ll>ex(33,0);
+    for(ll i =0 ; i< n;i++){
+        ex[findMaxBitPosition(b[i])]++;
+    }
 
-    int l =0 , sum =0 , len =0;
-    for(int r=0 ; r<n;r++){
-        sum += b[r];
-        while(sum > s){
-            sum -= b[l];
-            l++;
-        }
-        if(sum == s)len = max(len , r-l+1);
-    }   
-    print(n-len);
+    for(ll &i : ex){
+        ans += (i)*(i-1)/2;
+    }
+
+    print(ans);
+
 
     // Solve logic here
     

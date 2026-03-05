@@ -36,26 +36,31 @@ long long power(long long base, long long exp) {
 void solve() {
     int n;
     if (!(cin >> n)) return;
-    int s; cin>>s;
-    vector<int> b(n); 
-    cin(b);
-    /// FIrst COnd total sum < s , return -1 
-    int tot =0;
-    for(int &i : b) tot+=i;
-    if(tot<s){cout<<-1<<endl; return;}
-
-    int l =0 , sum =0 , len =0;
-    for(int r=0 ; r<n;r++){
-        sum += b[r];
-        while(sum > s){
-            sum -= b[l];
-            l++;
-        }
-        if(sum == s)len = max(len , r-l+1);
-    }   
-    print(n-len);
-
-    // Solve logic here
+    
+    vector<int> v(n); 
+    cin(v);
+      if(n < 4){
+    cout<<-1<<endl;return;
+  }
+  int st = 0, e = n-1, mn = 1, mx = n;
+  bool got = false;
+  while(st<e){
+    while(v[st] == mn || v[st] == mx){
+        if(v[st] == mn){st++; mn++;}
+        else{st++; mx--;}
+    }
+    while(v[e] == mn || v[e] == mx){
+        if(v[e] == mn) mn++;
+        else mx--;
+        e--;
+    }
+    if(st < e && v[st] != mn && v[st] != mx && v[e] != mn && v[e] != mx){
+        got = true;break;
+    }
+  }
+  if(got){
+    cout<<st+1<<" "<<e+1<<endl;
+  }else cout<<-1<<endl;
     
 }
 
