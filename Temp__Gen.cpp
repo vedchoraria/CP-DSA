@@ -5,7 +5,7 @@ using namespace std;
 // --- Macros ---
 #define ll long long
 #define pb push_back
-#define all(x) (x).begin(), (x).end()
+#define all(x) x.begin(), x.end()
 #define cin(x) for(auto &i : (x)) cin >> i;
 #define fastio ios_base::sync_with_stdio(false); cin.tie(NULL); cout.tie(NULL);
 #define print(x) cout << (x) << endl;
@@ -31,6 +31,19 @@ long long power(long long base, long long exp) {
     }
     return res;
 }
+
+int findMaxBitPosition(int n) {
+    if (n == 0) {
+        return 0; // No set bits
+    }
+    int position = 0;
+    while (n != 0) {
+        n >>= 1;      // Right shift n by 1
+        position++;   // Increment position counter
+    }
+    return position;
+}
+
 //LCM FUnc
 // --- Logic ---
 void solve() {
@@ -46,6 +59,10 @@ void solve() {
 
 int main() {
     fastio;
+    // #ifndef ONLINE_JUDGE
+    // freopen("input.txt", "r", stdin);
+    // freopen("output.txt", "w", stdout);
+    // #endif
     int t = 1;
     cin >> t; 
     while (t--) {
