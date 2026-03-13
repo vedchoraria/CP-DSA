@@ -9,7 +9,7 @@ using namespace std;
 #define cin(x) for(auto &i : (x)) cin >> i;
 #define fastio ios_base::sync_with_stdio(false); cin.tie(NULL); cout.tie(NULL);
 #define print(x) cout << (x) << endl;
-#define print_arr(x) for(int &i : (x)) cout << i << endl; cout<<endl;
+#define print_arr(x) for(int &i : (x)) cout << i << " "; cout<<endl; 
 
 
 
@@ -21,8 +21,6 @@ const ll INF = 1e18; // Changed to ll to match 1e18
 bool isCo_Prime( int a , int b){
     return true ? gcd(a,b) == 1 : false;
 }
-
-
 
 long long power(long long base, long long exp) {
     long long res = 1;
@@ -44,28 +42,7 @@ int findMaxBitPosition(int n) {
         position++;   // Increment position counter
     }
     return position;
-}
-void printPrimeFactors(long long n) {
-    // Print the number of 2s that divide n
-    while (n % 2 == 0) {
-        std::cout << 2 << " ";
-        n = n / 2;
-    }
-
-    // n must be odd at this point. So we can skip one element (i=3) and 
-    // increment i by 2 (i=5, 7, 9, ...)
-    for (long long i = 3; i * i <= n; i = i + 2) {
-        // While i divides n, print i and divide n
-        while (n % i == 0) {
-            std::cout << i << " ";
-            n = n / i;
-        }
-    }
-
-    // If n is a prime number greater than 2, it will not become 1 by the above loops
-    if (n > 2) {
-        std::cout << n << " ";
-    }
+    cout<<endl;
 }
 
 //LCM FUnc
@@ -76,7 +53,10 @@ void solve() {
     
     vector<int> b(n); 
     cin(b);
-
+    int a = n , ma = 0;
+    for(int i =0;i<n;i++) if(a == b[i]) ma = i;
+    swap(b[0] , b[ma]);
+    print_arr(b);
     // Solve logic here
     
 }

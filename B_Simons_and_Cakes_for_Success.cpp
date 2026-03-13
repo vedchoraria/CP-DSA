@@ -22,8 +22,6 @@ bool isCo_Prime( int a , int b){
     return true ? gcd(a,b) == 1 : false;
 }
 
-
-
 long long power(long long base, long long exp) {
     long long res = 1;
     while (exp > 0) {
@@ -45,10 +43,10 @@ int findMaxBitPosition(int n) {
     }
     return position;
 }
-void printPrimeFactors(long long n) {
+void printPrimeFactors(long long n  , set<int> &s) {
     // Print the number of 2s that divide n
     while (n % 2 == 0) {
-        std::cout << 2 << " ";
+        s.insert(2);
         n = n / 2;
     }
 
@@ -57,25 +55,29 @@ void printPrimeFactors(long long n) {
     for (long long i = 3; i * i <= n; i = i + 2) {
         // While i divides n, print i and divide n
         while (n % i == 0) {
-            std::cout << i << " ";
+            s.insert(i);
             n = n / i;
         }
     }
 
     // If n is a prime number greater than 2, it will not become 1 by the above loops
     if (n > 2) {
-        std::cout << n << " ";
+        s.insert(n);
     }
 }
 
 //LCM FUnc
 // --- Logic ---
 void solve() {
-    int n;
+    ll n;
     if (!(cin >> n)) return;
-    
-    vector<int> b(n); 
-    cin(b);
+    ll ans = 1;
+    set<int>s;
+    printPrimeFactors(n, s);
+    for(auto it : s){
+        ans = ans*it;
+    }
+    print(ans);
 
     // Solve logic here
     
