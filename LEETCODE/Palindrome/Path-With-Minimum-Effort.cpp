@@ -1,33 +1,34 @@
-1class Solution {
-2public:
-3    int minimumEffortPath(vector<vector<int>>& heights) {
-4        int rows = heights.size(), cols = heights[0].size();
-5        vector<vector<int>> dist(rows, vector<int>(cols, INT_MAX));
-6        priority_queue<tuple<int, int, int>, vector<tuple<int, int, int>>, greater<>> minHeap;
-7        minHeap.emplace(0, 0, 0);
-8        dist[0][0] = 0;
-9        
-10        int directions[4][2] = {{0, 1}, {0, -1}, {1, 0}, {-1, 0}};
-11        
-12        while (!minHeap.empty()) {
-13            auto [effort, x, y] = minHeap.top();
-14            minHeap.pop();
-15            
-16            if (effort > dist[x][y]) continue;
-17            
-18            if (x == rows - 1 && y == cols - 1) return effort;
-19            
-20            for (auto& dir : directions) {
-21                int nx = x + dir[0], ny = y + dir[1];
-22                if (nx >= 0 && nx < rows && ny >= 0 && ny < cols) {
-23                    int new_effort = max(effort, abs(heights[x][y] - heights[nx][ny]));
-24                    if (new_effort < dist[nx][ny]) {
-25                        dist[nx][ny] = new_effort;
-26                        minHeap.emplace(new_effort, nx, ny);
+1typedef pair<int, pair<int, int>> node;
+2class Solution {
+3public:
+4    int minimumEffortPath(vector<vector<int>>& heights) {
+5        priority_queue<node, std::vector<node>, std::greater<node>> pq;
+6        int rows = heights.size() , cols = heights[0].size();
+7        vector<vector<int>>dist(rows, vector<int> (cols, INT_MAX));
+8        vector<pair<int,int>>dir = {
+9            {1,0} , {-1,0} , {0 , 1}, {0,-1}
+10        };
+11
+12        pq.push({0,{0,0}});
+13        dist[0][0] = 0;
+14        while(!pq.empty()){
+15            auto[effort , pos] = pq.top();
+16            int r = pos.first , c= pos.second;
+17            pq.pop();
+18            if( r == rows -1 && c == cols-1)return effort;
+19
+20            for(auto[dr , dc] : dir){
+21                int nr = r+dr , nc = c+dc;
+22                if(nr>=0 && nr<rows && nc >=0 && nc < cols){
+23                    int newEffort = max(effort , abs(heights[r][c] - heights[nr][nc]));
+24                    if(newEffort < dist[nr][nc]){
+25                        dist[nr][nc] = newEffort;
+26                        pq.push({newEffort , {nr , nc}});
 27                    }
-28                }
-29            }
-30        }
-31        return -1;
-32    }
-33};
+28                    
+29                }
+30            }
+31        }
+32        return 0;
+33    }
+34};
