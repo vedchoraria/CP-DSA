@@ -40,45 +40,70 @@ void solve() {
     vector<int> c(n);
     for(auto &x : c) cin >> x;
 
-    vector<vector<int>> pos(k+1);
-
-    for(int i=0;i<n;i++)
-        pos[c[i]].push_back(i+1);
-
+    vector<vector<int>>pos(k+1);
+    for(int i =1 ;i<=k;i++){
+        pos[i].pb(0);
+    }
     int ans = INT_MAX;
 
-    for(int color=1;color<=k;color++){
-
-        vector<int> p;
-        p.push_back(0);
-
-        for(int x:pos[color])
-            p.push_back(x);
-
-        p.push_back(n+1);
-        if(p.size() <=3) continue;
-
-        int largest = 0;
-        int second = 0;
-
-        for(int i=1;i<p.size();i++){
-            int gap = p[i]-p[i-1]-1;
-
-            if(gap > largest){
-                second = largest;
-                largest = gap;
-            }
-            else if(gap > second){
-                second = gap;
-            }
-        }
-
-        int cur = max(second, (largest+1)/2);
-        // cout<<color<<" : "<<cur<<endl;
-        ans = min(ans, cur);
+    for(int i =0;i<n;i++){
+        pos[c[i]].pb(i+1);
+    }
+    for(int i =1 ;i<=k;i++){
+        pos[i].pb(n+1);
     }
 
-    cout << ans << "\n";
+    for(int i =1; i<=k;i++){
+        int a = pos[i].size();
+        vector<int>diff;
+        for(int j =1;j<a;j++){
+            diff.pb(pos[i][j] - pos[i][j-1] - 1);
+        }
+        sort(diff.begin() , diff.end());
+        ans = min(ans , max( diff[diff.size()-1]/2 , diff[diff.size()-2]) );
+    }
+
+    print(ans);
+
+    // vector<vector<int>> pos(k+1);
+
+    // for(int i=0;i<n;i++)
+    //     pos[c[i]].push_back(i+1);
+
+    // int ans = INT_MAX;
+
+    // for(int color=1;color<=k;color++){
+
+    //     vector<int> p;
+    //     p.push_back(0);
+
+    //     for(int x:pos[color])
+    //         p.push_back(x);
+
+    //     p.push_back(n+1);
+    //     if(p.size() <=3) continue;
+
+    //     int largest = 0;
+    //     int second = 0;
+
+    //     for(int i=1;i<p.size();i++){
+    //         int gap = p[i]-p[i-1]-1;
+
+    //         if(gap > largest){
+    //             second = largest;
+    //             largest = gap;
+    //         }
+    //         else if(gap > second){
+    //             second = gap;
+    //         }
+    //     }
+
+    //     int cur = max(second, (largest+1)/2);
+    //     // cout<<color<<" : "<<cur<<endl;
+    //     ans = min(ans, cur);
+    // }
+
+    // cout << ans << "\n";
 }
 
 int main() {
