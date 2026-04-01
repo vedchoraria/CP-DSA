@@ -82,15 +82,8 @@ void solve() {
     int n;
     if (!(cin >> n)) return;
     
-    vector<int> b(n+1); 
-    int ans =0;
-    for(int i =1;i<=n;i++){
-        cin>>b[i];
-        if(b[i] == i) ans++;
-        if(b[i] < i) ans++;
-    }
-
-    print(ans);
+    for(int i =n ;i>0;i--) cout<<i<<" ";
+    cout<<endl;
 
     // Solve logic here
     
