@@ -4,6 +4,7 @@ public:
 ll solve(vector<int>&robot , vector<int>& pos , int i , int j , vector<vector<ll>>&dp){
     if(i == robot.size()) return 0;
     if(j == pos.size()) return 1e15;
+    //1e9+1e9 = 2*1e9 > 1e10 sometimes....therefore no risk
     if(dp[i][j]!= -1) return dp[i][j];
     //take
     ll take = 1LL*abs(robot[i]-pos[j]) + solve(robot , pos , i+1 , j+1 , dp);
