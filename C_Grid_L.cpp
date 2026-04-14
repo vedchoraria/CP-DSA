@@ -21,6 +21,9 @@ const ll INF = 1e18; // Changed to ll to match 1e18
 bool isCo_Prime( int a , int b){
     return true ? gcd(a,b) == 1 : false;
 }
+
+
+
 long long power(long long base, long long exp) {
     long long res = 1;
     while (exp > 0) {
@@ -30,6 +33,7 @@ long long power(long long base, long long exp) {
     }
     return res;
 }
+
 int findMaxBitPosition(int n) {
     if (n == 0) {
         return 0; // No set bits
@@ -63,6 +67,7 @@ void printPrimeFactors(long long n) {
         std::cout << n << " ";
     }
 }
+
 long long factorial(int n) {
     long long res = 1;
     for (int i = 2; i <= n; i++) {
@@ -70,39 +75,27 @@ long long factorial(int n) {
     }
     return res;
 }
+
 //LCM FUnc
 // --- Logic ---
-ll int mod = 998244353;
 void solve() {
-    
-    
-    string s; cin>>s;
-    int n = s.length();
-    ll ans1 =0 , ans2 = 1;
-    ll cnt =1;
-    ll tot = 1;
-    for(ll i  =1 ; i<n;i++){
-        if(s[i] == s[i-1]) cnt++;
-        else{
-            tot++;
-            ans1 += cnt-1;
-            ans2 = (ans2*cnt)%mod;
-            cnt = 1;
+    ll p,q; cin>>p>>q;
+    ll tot = p+2*q;
+    ll dark = 2*tot+1;
+    for(ll a = 3;a*a<=dark;a+=2){
+        if(dark%a == 0){
+            ll b = dark/a;
+            ll n = (a-1)/2 , m = (b-1)/2;
+            ll hmax = m*(n+1);
+            ll vmax_ = n*(m+1);
+            if(q<= min(hmax , vmax_)){
+                cout<<n<<" "<<m<<endl;
+                return;
+            }
         }
     }
-    if(cnt>1) ans1 += cnt-1;
-    ans2 = (ans2*cnt)%mod;
-    
-    //Now joh delete krna hai usme bhi toh order diff ho sakta hai...that's why multiply by factorial of tot
-    // or tot = correct no of characters
 
-    tot = n - tot;
-    //now represents no of charaters to be removed 
-
-    for(int i =1 ;i<= ans1 ;i++){
-        ans2 = (ans2*i)%mod;
-    }
-    cout<<ans1<<" "<<ans2<<endl;
+    print(-1);
 
     // Solve logic here
     

@@ -9,7 +9,7 @@ using namespace std;
 #define cin(x) for(auto &i : (x)) cin >> i;
 #define fastio ios_base::sync_with_stdio(false); cin.tie(NULL); cout.tie(NULL);
 #define print(x) cout << (x) << endl;
-#define print_arr(x) for(int &i : (x)) cout << i << endl; cout<<endl;
+#define print_arr(x) for(int &i : (x)) cout << i << " "; cout<<endl;
 
 
 
@@ -21,6 +21,9 @@ const ll INF = 1e18; // Changed to ll to match 1e18
 bool isCo_Prime( int a , int b){
     return true ? gcd(a,b) == 1 : false;
 }
+
+
+
 long long power(long long base, long long exp) {
     long long res = 1;
     while (exp > 0) {
@@ -30,6 +33,7 @@ long long power(long long base, long long exp) {
     }
     return res;
 }
+
 int findMaxBitPosition(int n) {
     if (n == 0) {
         return 0; // No set bits
@@ -63,6 +67,7 @@ void printPrimeFactors(long long n) {
         std::cout << n << " ";
     }
 }
+
 long long factorial(int n) {
     long long res = 1;
     for (int i = 2; i <= n; i++) {
@@ -70,40 +75,29 @@ long long factorial(int n) {
     }
     return res;
 }
+
 //LCM FUnc
 // --- Logic ---
-ll int mod = 998244353;
 void solve() {
+    int n;
+    if (!(cin >> n)) return;
     
-    
-    string s; cin>>s;
-    int n = s.length();
-    ll ans1 =0 , ans2 = 1;
-    ll cnt =1;
-    ll tot = 1;
-    for(ll i  =1 ; i<n;i++){
-        if(s[i] == s[i-1]) cnt++;
-        else{
-            tot++;
-            ans1 += cnt-1;
-            ans2 = (ans2*cnt)%mod;
-            cnt = 1;
+    vector<int> b(n); 
+    cin(b);
+    sort(b.rbegin() , b.rend());
+    int sum =0;
+    for(int i : b) sum += i;
+    vector<bool>poss(sum+1 , false);
+    poss[0] = true;
+    vector<int>ans;
+    for(int i : b){
+        if(poss[i]){print(-1); return;}
+        ans.pb(i);
+        for(int j = sum -i;j>=0;j--){
+            if(poss[j]) poss[j+i] = true;
         }
     }
-    if(cnt>1) ans1 += cnt-1;
-    ans2 = (ans2*cnt)%mod;
-    
-    //Now joh delete krna hai usme bhi toh order diff ho sakta hai...that's why multiply by factorial of tot
-    // or tot = correct no of characters
-
-    tot = n - tot;
-    //now represents no of charaters to be removed 
-
-    for(int i =1 ;i<= ans1 ;i++){
-        ans2 = (ans2*i)%mod;
-    }
-    cout<<ans1<<" "<<ans2<<endl;
-
+    print_arr(ans);
     // Solve logic here
     
 }
