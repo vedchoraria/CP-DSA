@@ -1,5 +1,8 @@
 //Author : VED CHORARIA
-#include <bits/stdc++.h>
+#include <iostream>
+#include <vector>
+#include <algorithm>
+#include <cmath>
 using namespace std;
 
 // --- Macros ---
@@ -9,7 +12,7 @@ using namespace std;
 #define cin(x) for(auto &i : (x)) cin >> i;
 #define fastio ios_base::sync_with_stdio(false); cin.tie(NULL); cout.tie(NULL);
 #define print(x) cout << (x) << endl;
-#define print_arr(x) for(int &i : (x)) cout << i << " "; cout<<endl;
+#define print_arr(x) for(int &i : (x)) cout << i << endl; cout<<endl;
 
 
 
@@ -19,7 +22,7 @@ const ll INF = 1e18; // Changed to ll to match 1e18
 
 // --- General Functions ---
 bool isCo_Prime( int a , int b){
-    return true ? gcd(a,b) == 1 : false;
+    return __gcd(a,b) == 1;
 }
 
 
@@ -82,9 +85,57 @@ void solve() {
     int n;
     if (!(cin >> n)) return;
     
-    vector<int> b(n); 
+    vector<int> b(2*n); 
     cin(b);
+    int p1 =-1 , p2 =-1;
+    for(int i=0;i<2*n;i++){
+        if(b[i]==0){
+            if(p1 == -1) p1 = i;
+            else p2 = i;
+        }
+    }
+    int ans = 0;
+    //BASIC vector to keep track which is missing
+    vector<int>cnt1(n+2,0);
+    //CASE 1 : expanding around p1
+    int i = p1 , j = p1;
+    while(i>=0 && j < 2*n){
+        if(b[i] == b[j]){cnt1[b[i]]++; i--; j++;}
+        else break;
+    }
+    for(int k=0;k<n+2;k++){
+        if(cnt1[k] == 0) {ans = max(ans, k); break;
+    }}
 
+    //CASE 2 : expanding around p2;
+    vector<int>cnt2(n+2,0);
+    i = p2 , j = p2;
+    while(i>=0 && j < 2*n){
+        if(b[i] == b[j]){cnt2[b[i]]++; i--; j++;}
+        else break;
+    }
+    for(int k=0;k<n+2;k++){
+        if(cnt2[k] == 0) {ans = max(ans, k); break;
+    }}
+
+    //CASE3: p1 , p2 two ends
+    vector<int>cnt3(n+2,0);
+    bool val = true;
+    i = p1 , j = p2;
+    while(i<=j){
+        if(b[i] == b[j]){cnt3[b[i]]++; i++; j--;}
+        else {val = false; break;}
+    }
+    if(val){
+            while(i>=0 && j < 2*n){
+                if(b[i] == b[j]){cnt3[b[i]]++; i--; j++;}
+                else break;
+            }
+            for(int k=0;k<n+2;k++){
+                if(cnt3[k] == 0) {ans = max(ans, k); break;}
+            }
+    }
+    print(ans);
     // Solve logic here
     
 }

@@ -78,15 +78,73 @@ long long factorial(int n) {
 
 //LCM FUnc
 // --- Logic ---
-void solve() {
-    int n;
-    if (!(cin >> n)) return;
+// void solve() {
+//     int n;
+//     if (!(cin >> n)) return;
     
-    vector<int> b(n); 
-    cin(b);
+//     vector<int>a(n);
+//     int mi = 1e8;
 
-    // Solve logic here
+//     for(int i =0;i<n;i++){
+//         cin>>a[i]; mi = min(mi , a[i]);
+//     }
+
+//     vector<int>t;
+//     int top = mi;
+//     int i = n-1;
+//     while(i>=0){
+//         if(a[i] == mi) break;
+//         else{
+//             t.pb(a[i]);
+//         }
+
+//         i--;
+//     }
+//     for(i ;i>=0;i--){
+//         if(a[i] >= top){
+//             top = a[i];
+//         }
+//         else{
+//             t.pb(a[i]);
+//         }
+//     }
+
+//     int cnt =0;
+//     for(int j =t.size()-2;j>=0;j--){
+//         if(t[j] > t[j+1]) cnt++;
+//     }
+
+//     print(cnt);
+//     // print_arr(t);
+//     // Solve logic here
     
+// }
+
+void solve(){
+    int n;
+    cin>>n;
+    vector<int>b(n);
+    cin(b);
+    int ans = 0; // total penalty accumulated across both subsequences
+	int x = INT_MAX, y = INT_MAX; // current last elements (tails) of the two subsequences; we maintain x <= y
+
+	for (int i = 0; i < n; i++) {
+		if (x > y) {
+			swap(x, y); // keep invariant x <= y before placing a[i]
+		}
+		// Greedily place a[i] into the leftmost subsequence it can extend without increasing its last value.
+		if (b[i] <= x) {
+			x = b[i]; // extend first subsequence (non-increasing), no new increase
+		} else if (b[i] <= y) {
+			y = b[i]; // extend second subsequence, no new increase
+		} else {
+			// a[i] is greater than both tails: we must start a new group in one subsequence,
+			// which contributes +1 to the penalty.
+			x = b[i];
+			ans++;
+		}
+	}
+    print(ans);
 }
 
 int main() {
