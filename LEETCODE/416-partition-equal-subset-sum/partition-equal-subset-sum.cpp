@@ -14,7 +14,9 @@ bool solve(vector<vector<int>>&dp, int i, int sum ,int tot, vector<int>&nums){
     bool canPartition(vector<int>& nums) {
         int total_Sum=0;
         int n = nums.size();
+
         for(int i : nums) total_Sum += i;
+        if(total_Sum&1) return false;
         vector<vector<int>>dp(n,vector<int>(total_Sum+1,-1));
         return solve(dp,0,0,total_Sum, nums);
     }
