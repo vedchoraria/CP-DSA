@@ -80,8 +80,68 @@ void solve() {
     int n;
     if (!(cin >> n)) return;
     
-    vector<int> b(n); 
-    cin(b);
+    string s;
+    cin>>s;
+    int cnt1=0, cnt2 =0;
+    for(char i : s){
+        if(i==')') cnt2++;
+        else if(i=='(') cnt1++;
+        else {print(-1); return;}
+    }
+    if(cnt1 != cnt2){
+        print(-1); return;
+    }
+
+    cnt1 =0;
+    cnt2 =0;
+    stack<int>s1, s2;
+   
+    bool color = false;
+    vector<int>col(n,0);
+    for(int i =0;i<n;i++){
+        if(s[i] == '('){
+            cnt1++; s1.push(i);
+        }
+        else if(s[i] == ')'){
+            cnt2++; s2.push(i);
+
+        }
+
+        if(cnt1 && cnt2){
+            int x = s1.top();
+            int y = s2.top();
+            s1.pop(); s2.pop();
+
+            if(x>y){
+                color = true;
+                col[x] = 2; col[y] = 2;
+            }
+            else{
+                col[x] =1; col[y] =1;
+            }
+            cnt1--;  cnt2--;
+            
+        }
+    }
+    bool one = false;
+    for(int i : col){
+        if(i == 1) {one = true; break;}
+    }
+
+    if(!one){
+        print(1);
+        for(int i : col){
+        cout<<1<<" ";
+        }
+        cout<<endl;
+        return;
+    }
+    if(color) {print(2);}
+    else cout<<1<<endl;
+    for(int i : col){
+        cout<<i<<" ";
+    }
+    cout<<endl;
 
     // Solve logic here
     

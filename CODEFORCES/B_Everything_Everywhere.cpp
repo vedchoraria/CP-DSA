@@ -80,8 +80,30 @@ void solve() {
     int n;
     if (!(cin >> n)) return;
     
-    vector<int> b(n); 
-    cin(b);
+    vector<int> arr(n); 
+    cin(arr);
+    int right=0 , left =0;
+    int temp, ans=0;
+    while(right <n && left <= right){
+        auto maxValue = *max_element(arr.begin() + left, arr.begin() + right+1);
+        auto minValue = *min_element(arr.begin() + left, arr.begin() + right+1);
+        int diff = maxValue-minValue;
+        // cout<<maxValue<<" :: "<<minValue<<endl;
+        // cout<<left<<" :: "<<right<<"  :: "<<diff<<endl;
+        temp = arr[left];
+        for(int i =left+1 ;i<=right;i++){
+            temp = gcd(temp , arr[i]);
+        }
+        if(temp == diff) {ans++; }
+        if(diff<=0){
+            // cout<<"ABABABABA\n";
+            right++;
+            continue;
+        }
+        
+        if(diff>0) left++;
+    }
+    print(ans);
 
     // Solve logic here
     

@@ -77,12 +77,18 @@ long long factorial(int n) {
 //LCM FUnc
 // --- Logic ---
 void solve() {
-    int n;
-    if (!(cin >> n)) return;
-    
-    vector<int> b(n); 
-    cin(b);
+    ll x,y;
+    cin>>x>>y;
+    ll k = y/x;
+    // cout<<k<<endl;
+    for(ll i =k ;i>0;i--){
+        // cout<<k<<"  :::  "<<i<<endl;
+        if(k%i != 0){
+            print("YES"); return;
+        }
+    }
 
+    print("NO");return;
     // Solve logic here
     
 }

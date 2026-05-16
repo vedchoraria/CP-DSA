@@ -76,17 +76,76 @@ long long factorial(int n) {
 
 //LCM FUnc
 // --- Logic ---
-void solve() {
+void solve(){
+    ll a;
     int n;
-    if (!(cin >> n)) return;
-    
-    vector<int> b(n); 
-    cin(b);
+    cin>>a>>n;
+    int x,y;
+    cin>>x>>y;
+    ll ans=2e18;
+    string s=to_string(a);
+    int l=s.size();
+    if(x==0) ans=min(ans,a);
+    for(int len=1;len<=18;len++){
+        int first=(x==0 && len>1)?y:x;
+        ll d1=first;
+        for(int j=1;j<len;j++)
+            d1=d1*10+x;
+        ll d2=0;
+        for(int j=0;j<len;j++)
+            d2=d2*10+y;
+        if(len<l){
+            ans=min(ans,a-d2);
+        }
+        else if(len>l){
+            ans=min(ans,d1-a);
+            break;
+        }
+        else{
+            bool ok=true;
+            for(int p=0;p<len && ok;p++){
+                int cur=s[p]-'0';
+                for(int k=1;k>=0;k--){
+                    int d=(k?y:x);
+                    if(p==0 && d==0 && len>1)
+                        continue;
+                    if(d<cur){
+                        ll b=0;
+                        for(int j=0;j<p;j++)
+                            b=b*10+(s[j]-'0');
+                        b=b*10+d;
+                        for(int j=p+1;j<len;j++)
+                            b=b*10+y;
+                        ans=min(ans,a-b);
+                        break;
+                    }
+                }
+                for(int k=0;k<2;k++){
+                    int d=(k?y:x);
+                    if(p==0 && d==0 && len>1)
+                        continue;
+                    if(d>cur){
+                        ll b=0;
+                        for(int j=0;j<p;j++)
+                            b=b*10+(s[j]-'0');
+                        b=b*10+d;
+                        for(int j=p+1;j<len;j++)
+                            b=b*10+x;
 
-    // Solve logic here
-    
+                        ans=min(ans,b-a);
+                        break;
+                    }
+                }
+
+                if(cur!=x && cur!=y)
+                    ok=false;
+            }
+            if(ok) ans=0;
+        }
+    }
+
+    print(ans);
 }
-
 int main() {
     fastio;
     // #ifndef ONLINE_JUDGE

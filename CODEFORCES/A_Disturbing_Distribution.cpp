@@ -82,7 +82,17 @@ void solve() {
     
     vector<int> b(n); 
     cin(b);
-
+    int ans =0 , fnd1 = 0;
+    for(int i=0;i<n;i++){
+        if(b[i] == 1) fnd1++;
+        else{
+            ans+= b[i];
+            if(b[i] > 1) fnd1 =0;
+        }
+    }
+    if(fnd1)
+    ans += 1;
+    print(ans);
     // Solve logic here
     
 }

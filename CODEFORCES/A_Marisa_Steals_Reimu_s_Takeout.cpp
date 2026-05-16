@@ -82,7 +82,22 @@ void solve() {
     
     vector<int> b(n); 
     cin(b);
+    int cnt0=0, cnt1=0, cnt2=0;
+    for(int i : b){
+        if(i==0) cnt0++;
+        if(i==1) cnt1++;
+        if(i==2) cnt2++;
+    }
 
+    int ans = cnt0;
+    int x= min(cnt1,cnt2);
+    ans+= x;
+    cnt1-=x;
+    cnt2-=x;
+    if(cnt1){ ans+= cnt1/3;}
+    if(cnt2) ans += cnt2/3;
+    print(ans);
+    
     // Solve logic here
     
 }

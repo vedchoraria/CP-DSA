@@ -79,9 +79,25 @@ long long factorial(int n) {
 void solve() {
     int n;
     if (!(cin >> n)) return;
-    
-    vector<int> b(n); 
-    cin(b);
+    string s1 , s2;
+    cin>>s1>>s2;
+    int ans =0;
+    for(int i=0;i<n;i++){
+        if(s1[i] == s2[i]) continue;
+        if(i<n-1 
+        && s1[i] == s1[i+1]){
+         if(s2[i] != s2[i+1]){
+            
+            ans++;
+        }
+        i++;
+        continue;
+        }  
+        
+        ans++;
+    }
+
+    print(ans);
 
     // Solve logic here
     

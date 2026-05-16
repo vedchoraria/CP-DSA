@@ -79,10 +79,24 @@ long long factorial(int n) {
 void solve() {
     int n;
     if (!(cin >> n)) return;
-    
-    vector<int> b(n); 
-    cin(b);
+    int x;
+    cin>>x;
 
+    int i =1;
+    int div = 1, seg =0;
+    while(div >0){
+        i*=2;
+        div = n/i;
+        seg++;
+    }
+    bool last = false;
+    if(i-1 == n) last = true;
+    else seg--;
+
+    i/=2;
+    if(x/i && !last){
+        
+    }
     // Solve logic here
     
 }
