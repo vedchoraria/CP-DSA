@@ -10,7 +10,8 @@ using namespace std;
 #define fastio ios_base::sync_with_stdio(false); cin.tie(NULL); cout.tie(NULL);
 #define print(x) cout << (x) << endl;
 #define print_arr(x) for(int &i : (x)) cout << i << " "; cout<<endl;
-
+#define pys cout<<"YES\n"
+#define pno cout<<"NO\n"
 
 
 // --- Constants ---

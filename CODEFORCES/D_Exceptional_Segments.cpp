@@ -4,6 +4,7 @@ using namespace std;
 
 // --- Macros ---
 #define ll long long
+#define lll long long int
 #define pb push_back
 #define all(x) x.begin(), x.end()
 #define cin(x) for(auto &i : (x)) cin >> i;
@@ -77,26 +78,27 @@ long long factorial(int n) {
 //LCM FUnc
 // --- Logic ---
 void solve() {
-    int n;
+    lll n;
     if (!(cin >> n)) return;
-    int x;
+    lll x;
     cin>>x;
+    vector<lll>dp(n+1,0);
+    dp[0]=0;
+    unordered_map<lll,lll>right;
+    for(lll i=1;i<=n;i++){
+        dp[i] = i^dp[i-1];
+        // if(i<=x) left[dp[i]]++;
+        if(i>=x) right[dp[i]]++;
 
-    int i =1;
-    int div = 1, seg =0;
-    while(div >0){
-        i*=2;
-        div = n/i;
-        seg++;
     }
-    bool last = false;
-    if(i-1 == n) last = true;
-    else seg--;
 
-    i/=2;
-    if(x/i && !last){
-        
+    lll ans =0;
+    for(lll i =1;i<=x;i++){
+        ans += right[dp[i-1]];
     }
+    print(ans);
+
+
     // Solve logic here
     
 }
