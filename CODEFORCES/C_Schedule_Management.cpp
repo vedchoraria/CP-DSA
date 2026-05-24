@@ -158,11 +158,68 @@ bool chmin(T &a, T b) {
 
 void solve() {
 
-    int n;
+    ll n;
     cin >> n;
+    ll m;
+    cin>>m;
+    vector<ll> tasks(m+1);
+    vector<ll> freq(n+1,0);
+    
+    for(ll i =1;i<=m;i++)
+    {
+        cin>>tasks[i];
 
-    vector<int> a(n);
-    input(a);
+        freq[tasks[i]]++;
+    }
+
+    
+
+    //METHOD 1 : LINEAR SEARCH of time
+
+    // //checking for each possible value of time if it is possible 
+    // ll t =1; 
+    // for(t ; t<= 2*m;t++){
+    // ll finished =0; // total tasks finished 
+    //     for(ll i =1;i<= n;i++){
+    //         if(freq[i] >= t){
+    //             finished += t; //if(freq is more than time alotted, then all the tasks must be done by that person only)
+    //         }
+
+    //         else { // else utilise the extra time
+    //             finished += freq[i] + (t-freq[i])/2;
+    //         }
+    //     }
+    //     if(finished >= m){
+    //         print(t); return;
+    //     }
+    // }
+
+    // METHOD 2 : BINARY SEARCH OF TIME
+
+    auto check = [&](ll mid){
+    ll finished =0; // total tasks finished 
+        for(ll i =1;i<= n;i++){
+            if(freq[i] >= mid){
+                finished += mid; //if(freq is more than time alotted, then all the tasks must be done by that person only)
+            }
+
+            else { // else utilise the extra time
+                finished += freq[i] + (mid-freq[i])/2;
+            }
+        }
+        return finished >= m;        
+    };
+
+    ll l =1 , h = 2*m;
+    ll ans = 0;
+    while(l <= h){
+        ll mid = l + (h-l)/2;
+        if(check(mid)) {h = mid-1; ans = mid;}
+        else l = mid +1;
+    }
+
+    print(ans);
+
 
 }
 
