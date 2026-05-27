@@ -23,32 +23,64 @@
 //     }
 // };
 
+// class Solution {
+// public:
+// int solve(int index, int buy, int cap, vector<int>& prices ,
+// vector<vector<vector< int>>> &dp){
+//     int n = prices.size();
+//     if(index == n) return 0;
+
+//     if(cap == 0) return 0;
+
+//     if(dp[index][buy][cap] != -1) return dp[index][buy][cap];
+//     int profit =0;
+//     if(buy){
+//         int buyKaro = -prices[index] + solve(index+1, 0, cap, prices, dp);
+//         int skipKaro = 0 + solve(index+1, 1, cap, prices, dp);
+//         profit = max(buyKaro , skipKaro);
+//     }
+//     else{
+//         int sellKaro = prices[index] + solve(index+1, 1, cap-1 , prices, dp);
+//         int skipKaro = 0 + solve(index+1, 0, cap, prices, dp);
+//         profit = max(sellKaro , skipKaro);
+//     }
+//     return dp[index][buy][cap] = profit;
+// }
+//     int maxProfit(vector<int>& prices) {
+//         //index, buy, cap
+//         int n = prices.size();
+//         vector<vector<vector< int>>> dp(n,vector<vector<int>> ( 2 ,
+//         vector<int> (3,-1) ) ); return solve(0, 1, 2, prices,dp);
+//     }
+// };
+
 class Solution {
 public:
-int solve(int index, int buy, int cap, vector<int>& prices , vector<vector<vector< int>>> &dp){
-    int n = prices.size();
-    if(index == n) return 0;
-
-    if(cap == 0) return 0;
-
-    if(dp[index][buy][cap] != -1) return dp[index][buy][cap];
-    int profit =0;
-    if(buy){
-        int buyKaro = -prices[index] + solve(index+1, 0, cap, prices, dp);
-        int skipKaro = 0 + solve(index+1, 1, cap, prices, dp);
-        profit = max(buyKaro , skipKaro);
-    }
-    else{
-        int sellKaro = prices[index] + solve(index+1, 1, cap-1 , prices, dp);
-        int skipKaro = 0 + solve(index+1, 0, cap, prices, dp);
-        profit = max(sellKaro , skipKaro);
-    }
-    return dp[index][buy][cap] = profit;
-}
     int maxProfit(vector<int>& prices) {
-        //index, buy, cap
+        // index, buy, cap
         int n = prices.size();
-        vector<vector<vector< int>>> dp(n,vector<vector<int>> ( 2 , vector<int> (3,-1) ) );
-        return solve(0, 1, 2, prices,dp);
+        vector<vector<vector<int>>> dp(
+            n+1, vector<vector<int>>(2, vector<int>(3, 0)));
+// SIZE upgraded to n+1, with value 0 
+        for (int index = n - 1; index >= 0; index--) {
+            for (int buy = 0; buy <= 1; buy++) {
+                for (int cap = 2; cap > 0; cap--) {
+                    int profit = 0;
+                    if (buy) {
+                        int buyKaro = -prices[index] + dp[index+1][0][cap];
+                                      
+                        int skipKaro = 0 + dp[index+1][1][cap]; 
+                        profit = max(buyKaro, skipKaro);
+                    } else {
+                        int sellKaro = prices[index] + dp[index+1][1][cap-1];
+                        int skipKaro = 0 + dp[index+1][0][cap]; 
+                        profit = max(sellKaro, skipKaro);
+                    }
+                    dp[index][buy][cap] = profit;
+                }
+            }
+        }
+
+        return dp[0][1][2];
     }
 };
