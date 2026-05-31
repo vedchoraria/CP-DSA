@@ -160,19 +160,33 @@ void solve() {
 
     ll n;
     cin >> n;
+    ll m; cin>>m;
+    unordered_map<ll, vector<pll> >mpp;
 
-    vector<ll> a(n);
-    input(a);
-    vector<pll>v;
-    vector<ll>dp(n,0);
-    for(int i =0;i<n;i++){
-        if(a[i] < i+1) v.pb({a[i], i+1});
+    for(ll i =1;i<=n;i++){
+        for(ll j =1;j<=m;j++){
+            ll a; cin>>a;
+            mpp[a].pb({i,j});
+        }
     }
-    int right =0 , left = 0;
-    for(right ;)
+    ll ans =0;
+    for(auto it : mpp){
+        ll s = (ll)it.second.size();
+        for(ll i =0;i<s;i++){
+            ll a1 = it.second[i].first;
+            ll b1 = it.second[i].second;
+            for(ll j = i+1;j<s;j++){
+                ll a2 = it.second[j].first;
+                ll b2 = it.second[j].second;
+                ans += abs(a2-a1);
+                ans += abs(b2-b1);
+            }
+        }
+    }
+    print(ans);
 
 }
-
+ekgakeuckyvycvbycj
 // -------------------- MAIN --------------------
 
 int main() {
@@ -184,12 +198,12 @@ int main() {
     // freopen("output.txt", "w", stdout);
     // #endif
 
-    int t = 1;
-    cin >> t;
+    // int t = 1;
+    // cin >> t;
 
-    while (t--) {
+    // while (t--) {
         solve();
-    }
+    // }
 
     return 0;
 }

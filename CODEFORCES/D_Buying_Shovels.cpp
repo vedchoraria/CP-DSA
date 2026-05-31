@@ -158,19 +158,16 @@ bool chmin(T &a, T b) {
 
 void solve() {
 
-    ll n;
-    cin >> n;
+    int n, k;
+    cin >> n >> k;
 
-    vector<ll> a(n);
-    input(a);
-    vector<pll>v;
-    vector<ll>dp(n,0);
-    for(int i =0;i<n;i++){
-        if(a[i] < i+1) v.pb({a[i], i+1});
+    for(int i = k;i*i<k && i >= 1; i--) {
+
+        if(n % i == 0) {
+            cout << n / i << endl;
+            return;
+        }
     }
-    int right =0 , left = 0;
-    for(right ;)
-
 }
 
 // -------------------- MAIN --------------------

@@ -157,19 +157,28 @@ bool chmin(T &a, T b) {
 // -------------------- SOLVE --------------------
 
 void solve() {
+    string s;
+    cin>>s;
+    int n = s.length();
+    for(int i =1;i<n;i++){
+        bool x = true, y = true, z = true;
+        if(s[i] == s[i-1]){
+            if(i<n-1 && s[i+1] == 'x') x = false;
+            if(i<n-1 && s[i+1] == 'y') y = false;
+            if(i<n-1 && s[i+1] == 'z') z = false;
 
-    ll n;
-    cin >> n;
+            if(s[i-1] == 'x') x = false;
+            if(s[i-1] == 'y') y = false;
+            if(s[i-1] == 'z') z = false;
 
-    vector<ll> a(n);
-    input(a);
-    vector<pll>v;
-    vector<ll>dp(n,0);
-    for(int i =0;i<n;i++){
-        if(a[i] < i+1) v.pb({a[i], i+1});
+            if(x) s[i] = 'x';
+            else if(y) s[i] = 'y';
+            else s[i] = 'z';
+        }
     }
-    int right =0 , left = 0;
-    for(right ;)
+
+    print(s);
+    
 
 }
 
@@ -184,12 +193,12 @@ int main() {
     // freopen("output.txt", "w", stdout);
     // #endif
 
-    int t = 1;
-    cin >> t;
+    // int t = 1;
+    // cin >> t;
 
-    while (t--) {
+    // while (t--) {
         solve();
-    }
+    // }
 
     return 0;
 }

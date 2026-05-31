@@ -156,20 +156,43 @@ bool chmin(T &a, T b) {
 
 // -------------------- SOLVE --------------------
 
-void solve() {
+int ans = 0;
+vector<int>dp;
+int dfs(int node, vector<vector<int>>& adj, string& s){
+    if(adj[node].size() == 0){
+		return s[node - 1] == 'W' ? 1 : -1;
+	}
 
-    ll n;
+    int count = 0 ;
+    
+    for(int i = 0; i< adj[node].size() ;i++){
+        count += dfs(adj[node][i], adj, s);
+    }
+
+    count += (s[node-1] == 'W') ? 1 : -1;
+
+    if(count == 0) {ans ++;
+    }
+
+    return count;
+}
+void solve() {
+    ans =0;
+    int n;
     cin >> n;
 
-    vector<ll> a(n);
-    input(a);
-    vector<pll>v;
-    vector<ll>dp(n,0);
-    for(int i =0;i<n;i++){
-        if(a[i] < i+1) v.pb({a[i], i+1});
+    vector<int> a(n+1);
+    vector<vector<int>> adj(n+1);
+
+    for(int i =2;i<=n;i++){
+        int x; cin>>x;
+        adj[x].pb(i);
     }
-    int right =0 , left = 0;
-    for(right ;)
+    
+    string s; cin>>s;
+
+    dfs(1,adj,s);
+    print(ans);
 
 }
 

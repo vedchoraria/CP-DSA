@@ -163,14 +163,23 @@ void solve() {
 
     vector<ll> a(n);
     input(a);
-    vector<pll>v;
-    vector<ll>dp(n,0);
-    for(int i =0;i<n;i++){
-        if(a[i] < i+1) v.pb({a[i], i+1});
+    ll sum =0;
+    ll tot =0;
+    for(ll i : a) tot+= i;
+    for(ll i : a){
+        sum += i;
+        if(sum <= 0){
+            NO; return;
+        }
     }
-    int right =0 , left = 0;
-    for(right ;)
-
+    sum =0;
+    for(ll i = n-1;i>=0;i--){
+        sum += a[i];
+        if(sum <= 0) {
+            NO; return;
+        }
+    }
+    YES;
 }
 
 // -------------------- MAIN --------------------

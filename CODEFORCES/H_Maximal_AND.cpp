@@ -160,16 +160,30 @@ void solve() {
 
     ll n;
     cin >> n;
-
+    ll k; cin>>k;
+    vector<ll>bits(32,0);
+    
     vector<ll> a(n);
     input(a);
-    vector<pll>v;
-    vector<ll>dp(n,0);
-    for(int i =0;i<n;i++){
-        if(a[i] < i+1) v.pb({a[i], i+1});
+    ll ans = a[0];
+
+    for(ll i : a){
+        ans = ans & i;
+        ll j =0;
+        while(j<31){
+            if(i&(1<<j)) bits[j]++;
+            j++;
+        }
     }
-    int right =0 , left = 0;
-    for(right ;)
+    // a[i] < 2^31, i.e. only 31st bit is 1. ans equality is not give, so we will not consider the 31st bit
+    
+    for(ll i = 30;i>=0;i--){
+        if(k >= n-bits[i]){
+            ans = ans|(1<<i);
+            k -= n-bits[i];
+        }
+    }
+    print(ans);
 
 }
 

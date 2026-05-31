@@ -158,18 +158,23 @@ bool chmin(T &a, T b) {
 
 void solve() {
 
-    ll n;
+    int n;
     cin >> n;
-
-    vector<ll> a(n);
+    int k; cin>>k;
+    vector<int> a(n);
     input(a);
-    vector<pll>v;
-    vector<ll>dp(n,0);
-    for(int i =0;i<n;i++){
-        if(a[i] < i+1) v.pb({a[i], i+1});
+    vector<int>dp(n,0);
+    int cnt =0, ans =0;
+    for(int i =1;i<n;i++){
+        if(2*a[i] - a[i-1] > 0) dp[i] = 1;
+        if(dp[i]) cnt++;
+        else cnt =0;
+
+        if(cnt >= k) ans ++;
     }
-    int right =0 , left = 0;
-    for(right ;)
+
+    
+    print(ans);
 
 }
 

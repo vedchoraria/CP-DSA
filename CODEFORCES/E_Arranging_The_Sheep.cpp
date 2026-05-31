@@ -161,15 +161,34 @@ void solve() {
     ll n;
     cin >> n;
 
-    vector<ll> a(n);
-    input(a);
-    vector<pll>v;
-    vector<ll>dp(n,0);
-    for(int i =0;i<n;i++){
-        if(a[i] < i+1) v.pb({a[i], i+1});
+    string s; cin>>s;
+    vector<ll>pos;
+    // debug(s);
+    for(ll i =0;i<n;i++) if(s[i] == '*') pos.pb(i);
+    // debug(pos);
+    ll m = pos.size();
+    if(m == 0){
+        print(0); return;
     }
-    int right =0 , left = 0;
-    for(right ;)
+    // debug(m);
+    // if(m&1){
+        ll p = pos[m/2]-1;
+        ll ans =0;
+        // debug(p);
+        for(ll i = m/2-1;i>=0;i--){
+            ans += p- pos[i];
+            p--;
+        }
+        p = pos[m/2]+1;
+        for(ll i = m/2+1 ;i<m;i++){
+            ans += pos[i] - p;
+            p++;
+        }
+        // debug(ans);
+        print(ans);
+    // }
+
+    // cerr << endl;
 
 }
 

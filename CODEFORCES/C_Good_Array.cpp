@@ -160,16 +160,27 @@ void solve() {
 
     ll n;
     cin >> n;
+    unordered_map<ll,ll>mpp;
 
     vector<ll> a(n);
     input(a);
-    vector<pll>v;
-    vector<ll>dp(n,0);
-    for(int i =0;i<n;i++){
-        if(a[i] < i+1) v.pb({a[i], i+1});
+    ll sum =0;
+
+    for(ll i : a) {mpp[i]++; sum += i;}
+    vector<ll>ans;
+    for(ll i=0;i<n;i++){
+        ll k = sum;
+        k -= a[i];
+        if(k&1) continue;
+
+        k/=2; 
+        if((a[i] == k && mpp[k] > 1) || (a[i] != k && mpp[k] > 0))
+        ans.pb(i+1);
     }
-    int right =0 , left = 0;
-    for(right ;)
+
+    print(ans.size());
+    printVec(ans);
+
 
 }
 
@@ -184,12 +195,12 @@ int main() {
     // freopen("output.txt", "w", stdout);
     // #endif
 
-    int t = 1;
-    cin >> t;
+    // int t = 1;
+    // cin >> t;
 
-    while (t--) {
+    // while (t--) {
         solve();
-    }
+    // }
 
     return 0;
 }

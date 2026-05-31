@@ -155,21 +155,34 @@ bool chmin(T &a, T b) {
 }
 
 // -------------------- SOLVE --------------------
-
+// debug(a); debug(b); debug(c);
 void solve() {
 
     ll n;
     cin >> n;
-
-    vector<ll> a(n);
-    input(a);
-    vector<pll>v;
-    vector<ll>dp(n,0);
-    for(int i =0;i<n;i++){
-        if(a[i] < i+1) v.pb({a[i], i+1});
+    ll a =0, b =0, c=0;
+    
+    for(ll i =2;i*i<n;i++){
+        if(n%i != 0) continue;
+        ll temp = n/i;
+        a = i;
+        
+        for(int j=i+1;j*j<temp ;j++){
+            if(temp%j != 0) continue;
+            b =j;
+            c = temp/b;
+            if(b == c || a == c) continue;
+            //  debug(a); debug(b); debug(c);
+            
+            break;
+        }
+        break;
     }
-    int right =0 , left = 0;
-    for(right ;)
+    //  debug(a); debug(b); debug(c);
+    if(a*b*c == n){
+        YES; cout<<a<<" "<<b<< " "<< c<<endl;
+    }
+    else NO;
 
 }
 
