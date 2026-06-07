@@ -121,18 +121,6 @@ ll factorial(int n) {
 }
 
 // -------------------- HELPERS --------------------
-long long mod(long long x)
-{
-    return ((x % MOD + MOD) % MOD);
-}
-long long add(long long a, long long b)
-{
-    return mod(mod(a) + mod(b));
-}
-long long mul(long long a, long long b)
-{
-    return mod(mod(a) * mod(b));
-}
 
 template<class T>
 void input(vector<T>& v) {
@@ -168,53 +156,86 @@ bool chmin(T &a, T b) {
 
 // -------------------- SOLVE --------------------
 
-void solve() {
+vector<vector<vector<ll>>> dp;
+ll n; string s , w;
 
-    ll n, m;
-    cin >> n >> m;
-
-    ll cnt2 = 0, cnt5 = 0;
-
-    ll temp = n;
-
-    while (temp % 2 == 0) {
-        cnt2++;
-        temp /= 2;
+ll solve(ll i , bool one, bool two){
+    //BASE CASE
+    if(i == n){
+        if(one && two) return 1;
+        return 0;
     }
+    //avoid calculating similar states
+    if(dp[i][one][two] != -1) return dp[i][one][two];
 
-    temp = n;
-
-    while (temp % 5 == 0) {
-        cnt5++;
-        temp /= 5;
-    }
-
-    ll k = 1;
-
-    if (cnt2 > cnt5) {
-
-        while (cnt5 < cnt2 && k * 5 <= m) {
-            k *= 5;
-            cnt5++;
+    // FIRST CASE : only numbers
+    if(s[i] != '?' && w[i] != '?'){
+        if(s[i] > w[i]){
+            dp[i][one][two] = solve(i+1, true, two) % MOD;
         }
-
-    }
-    else if (cnt5 > cnt2) {
-
-        while (cnt2 < cnt5 && k * 2 <= m) {
-            k *= 2;
-            cnt2++;
+        else if(s[i] < w[i]){
+            dp[i][one][two] = solve(i+1, one, true) % MOD;
         }
-
+        else {
+            dp[i][one][two] = solve(i+1, one , two) % MOD;
+        }
+        dp[i][one][two] %= MOD;
+    }
+    else{
+        dp[i][one][two] = 0;
+        if(s[i] == '?' && w[i] == '?'){
+            // c1 : assuming putting both numbers same 10 pairs for that 
+            dp[i][one][two] += 10*(solve(i+1, one , two)% MOD) % MOD;
+            dp[i][one][two] %= MOD;
+            // assuming you satisfy condn 1 : 45 pairs for that
+            dp[i][one][two] += 45*(solve(i+1, true, two)% MOD)% MOD;
+            dp[i][one][two] %= MOD;
+            //assuming you satify cond 2 , : 45 pairs for that 
+            dp[i][one][two] += 45*(solve(i+1, one, true)% MOD)% MOD;
+            dp[i][one][two] %= MOD;
+        }
+        else if(s[i] == '?'){
+            // option to put numbers only in one place
+            ll cnt = w[i]-'0';
+            // for 1st condn : 9-cnt , 2nd condn cnt 
+            dp[i][one][two] += (solve(i+1, one , two)% MOD) % MOD; // do nothing
+            dp[i][one][two] %= MOD;
+            dp[i][one][two] += (9-cnt)*(solve(i+1, true, two) % MOD) % MOD;
+            dp[i][one][two] %= MOD; 
+            dp[i][one][two] += (cnt)*(solve(i+1, one, true)% MOD)% MOD;
+            dp[i][one][two] %= MOD;
+        }
+        else {
+            // option to put numbers only in one place
+            ll cnt = s[i]-'0';
+            // for 1st condn : 9-cnt , 2nd condn cnt 
+            dp[i][one][two] += solve(i+1, one, two)% MOD; // do nothing
+            dp[i][one][two] %= MOD;
+            dp[i][one][two] += (cnt)*(solve(i+1, true, two)% MOD)% MOD;
+            dp[i][one][two] %= MOD;
+            dp[i][one][two] += (9-cnt)*(solve(i+1, one, true)% MOD)% MOD;
+            dp[i][one][two] %= MOD;
+        }
     }
 
-    while (k * 10 <= m)
-        k *= 10;
+    return dp[i][one][two]%MOD;
 
-    k *= (m / k);
-
-    print(n * k);
 }
+void t() {
+
+    
+    cin >> n;
+
+    
+    cin>>s>>w;
+    // STATES : index , first condn true , 2nd condn true
+    dp.assign(n+1, vector<vector<ll>>(2, vector<ll>(2,-1)));
+    ll ans = solve(0, false, false);
+    print(ans);
+    // debug(dp);
+
+}
+
 // -------------------- MAIN --------------------
 
 int main() {
@@ -226,12 +247,12 @@ int main() {
     // freopen("output.txt", "w", stdout);
     // #endif
 
-    int t = 1;
-    cin >> t;
+    // int t = 1;
+    // cin >> t;
 
-    while (t--) {
-        solve();
-    }
+    // while (t--) {
+        t();
+    // }
 
     return 0;
 }

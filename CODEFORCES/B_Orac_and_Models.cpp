@@ -121,18 +121,6 @@ ll factorial(int n) {
 }
 
 // -------------------- HELPERS --------------------
-long long mod(long long x)
-{
-    return ((x % MOD + MOD) % MOD);
-}
-long long add(long long a, long long b)
-{
-    return mod(mod(a) + mod(b));
-}
-long long mul(long long a, long long b)
-{
-    return mod(mod(a) * mod(b));
-}
 
 template<class T>
 void input(vector<T>& v) {
@@ -168,53 +156,78 @@ bool chmin(T &a, T b) {
 
 // -------------------- SOLVE --------------------
 
-void solve() {
+ll help(vector<ll>&a, vector<vector<ll>>&dp, ll curr, ll prev ){
+    // BASE CASE : 
+    if(curr == a.size()) return 0;
 
-    ll n, m;
-    cin >> n >> m;
+    if(dp[curr][prev+1] != -1) return dp[curr][prev+1];
 
-    ll cnt2 = 0, cnt5 = 0;
+    ll take = 0;
+    if(prev == -1 || (a[curr] > a[prev] && (curr+1) %(prev+1) == 0))
+    take = 1 + help(a,dp,curr+1, curr);
 
-    ll temp = n;
+    ll nt = help(a,dp,curr+1, prev);
 
-    while (temp % 2 == 0) {
-        cnt2++;
-        temp /= 2;
-    }
-
-    temp = n;
-
-    while (temp % 5 == 0) {
-        cnt5++;
-        temp /= 5;
-    }
-
-    ll k = 1;
-
-    if (cnt2 > cnt5) {
-
-        while (cnt5 < cnt2 && k * 5 <= m) {
-            k *= 5;
-            cnt5++;
-        }
-
-    }
-    else if (cnt5 > cnt2) {
-
-        while (cnt2 < cnt5 && k * 2 <= m) {
-            k *= 2;
-            cnt2++;
-        }
-
-    }
-
-    while (k * 10 <= m)
-        k *= 10;
-
-    k *= (m / k);
-
-    print(n * k);
+    return dp[curr][prev+1] = max(take,nt);
 }
+
+// void solve() {
+
+//     ll n;
+//     cin >> n;
+
+//     vector<ll> a(n);
+//     input(a);
+//     ll curr = 0, prev = -1;
+//     vector<vector<ll>>dp (n+1, vector<ll>(n+1,-1));
+//     ll ans = help(a,dp,curr,prev);
+//     print(ans);
+//     // for(auto it : dp){
+//     //     debug(it);
+//     // }
+
+// }
+
+
+
+void solve() {
+    ll n; cin>>n;
+    vector<ll> s(n); input(s);
+ 
+ 
+    // State:
+    // dp[i] = maximum number of models that Orac can buy s.t. the last 
+    // model he bought was at index i
+ 
+    // hence he can buy at index 2*i, 3*i, 4*i, ... <=n
+    // dp[2*i] = max(dp[2*i], dp[i] + 1)
+    // dp[3*i] = max(dp[3*i], dp[i] + 1)
+ 
+    vector<ll> dp(n+1,1);
+ 
+ 
+    // Base Case:
+    // dp[i] = 1, for all i
+    // we can start from anywhere and buy 1 model
+ 
+    // Transition:
+    for(ll i=1; i<=n; i++){
+        for(ll j=2*i; j<=n; j+=i){
+            if(s[j-1] > s[i-1]){
+                dp[j] = max(dp[j], dp[i] + 1);
+            }
+        }
+    }
+ 
+    ll max_ans = INT_MIN;
+    for(ll i=1; i<=n; i++){
+        max_ans = max(max_ans, dp[i]);
+    }
+    print(max_ans);
+}
+ 
+
+
 // -------------------- MAIN --------------------
 
 int main() {

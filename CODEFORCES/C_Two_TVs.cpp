@@ -170,51 +170,44 @@ bool chmin(T &a, T b) {
 
 void solve() {
 
-    ll n, m;
-    cin >> n >> m;
+    int n;
+    cin >> n;
 
-    ll cnt2 = 0, cnt5 = 0;
-
-    ll temp = n;
-
-    while (temp % 2 == 0) {
-        cnt2++;
-        temp /= 2;
+    int first = -1, second = -1;
+    vector<pii>v;
+    for(int i =0;i<n;i++){
+        int l, r;
+        cin>>l>>r;
+        v.pb({l,r});
     }
-
-    temp = n;
-
-    while (temp % 5 == 0) {
-        cnt5++;
-        temp /= 5;
-    }
-
-    ll k = 1;
-
-    if (cnt2 > cnt5) {
-
-        while (cnt5 < cnt2 && k * 5 <= m) {
-            k *= 5;
-            cnt5++;
+    sort(v.begin(), v.end());
+    for(int i =0;i<n;i++){
+        int l = v[i].first;
+        int r = v[i].second;
+        if(first == -1){
+            first =r;
+            continue;
+        }
+        else if(second == -1){
+            second = r;
+            continue;
         }
 
-    }
-    else if (cnt5 > cnt2) {
-
-        while (cnt2 < cnt5 && k * 2 <= m) {
-            k *= 2;
-            cnt2++;
+        if(first < l){
+            first = r;
         }
-
+        else if(second < l){
+            second = r;
+        }
+        else {
+            NO; return;
+        }
     }
 
-    while (k * 10 <= m)
-        k *= 10;
+    YES; return ;
 
-    k *= (m / k);
-
-    print(n * k);
 }
+
 // -------------------- MAIN --------------------
 
 int main() {
@@ -226,12 +219,12 @@ int main() {
     // freopen("output.txt", "w", stdout);
     // #endif
 
-    int t = 1;
-    cin >> t;
+    // int t = 1;
+    // cin >> t;
 
-    while (t--) {
+    // while (t--) {
         solve();
-    }
+    // }
 
     return 0;
 }

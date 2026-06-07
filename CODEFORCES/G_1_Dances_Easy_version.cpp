@@ -170,51 +170,48 @@ bool chmin(T &a, T b) {
 
 void solve() {
 
-    ll n, m;
-    cin >> n >> m;
+    ll n;
+    cin >> n;
+    ll m; cin>>m;
 
-    ll cnt2 = 0, cnt5 = 0;
-
-    ll temp = n;
-
-    while (temp % 2 == 0) {
-        cnt2++;
-        temp /= 2;
+    vector<ll> a(n), b(n);
+    a[0] = 1;
+    for(ll i = 1; i< n;i++){
+        cin>>a[i];
     }
+     input(b);
+     sort(a.begin(), a.end());
+     sort(b.begin() , b.end());
 
-    temp = n;
+    ll ops = 0;
+    ll i =0 , j =0;
+    //selling c[0] = 1;
 
-    while (temp % 5 == 0) {
-        cnt5++;
-        temp /= 5;
+    while(j<n && b[j] <= 1){
+        // debug(j);
+        j++; ops++;
+        
     }
+    j++;
+    i++;
 
-    ll k = 1;
-
-    if (cnt2 > cnt5) {
-
-        while (cnt5 < cnt2 && k * 5 <= m) {
-            k *= 5;
-            cnt5++;
+    while(i<n && j < n){
+        if(b[j] <= a[i]){
+            // debug(j);
+            j++; ops++;
+            
         }
-
-    }
-    else if (cnt5 > cnt2) {
-
-        while (cnt2 < cnt5 && k * 2 <= m) {
-            k *= 2;
-            cnt2++;
+        else {
+            i++; j++;
         }
-
     }
 
-    while (k * 10 <= m)
-        k *= 10;
+    print(ops);
 
-    k *= (m / k);
+    // debug(a); debug(b);
 
-    print(n * k);
 }
+
 // -------------------- MAIN --------------------
 
 int main() {

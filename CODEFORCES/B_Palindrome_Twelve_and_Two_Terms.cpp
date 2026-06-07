@@ -167,54 +167,42 @@ bool chmin(T &a, T b) {
 }
 
 // -------------------- SOLVE --------------------
-
+// bool check(ll n){
+//     string a = to_string(n);
+//     string b = a.sub();
+//     reverse(b.begin(), b.end());
+//     return b == a;
+// }
 void solve() {
 
-    ll n, m;
-    cin >> n >> m;
+    ll n;
+    cin >> n;
 
-    ll cnt2 = 0, cnt5 = 0;
+    // ll b =0; ll a = n;
+    // for(b ; b<= n ;b+=12){
+    //     a= n-b;
+    //     if(check(a)){
+    //         cout<<a<<" "<<b<<endl;
+    //         return;
+    //     }
+    // }
 
-    ll temp = n;
+    // cout<<-1<<endl;
 
-    while (temp % 2 == 0) {
-        cnt2++;
-        temp /= 2;
+    if(n == 10){
+        print(-1); return;
     }
 
-    temp = n;
+    ll r = n%12;
+    ll a=0;
+    if(r<=9) a=r;
+    else if(r == 11) a= r;
+    else a = 22;
 
-    while (temp % 5 == 0) {
-        cnt5++;
-        temp /= 5;
-    }
+    cout<<a<<" "<<n-a<<endl;
 
-    ll k = 1;
-
-    if (cnt2 > cnt5) {
-
-        while (cnt5 < cnt2 && k * 5 <= m) {
-            k *= 5;
-            cnt5++;
-        }
-
-    }
-    else if (cnt5 > cnt2) {
-
-        while (cnt2 < cnt5 && k * 2 <= m) {
-            k *= 2;
-            cnt2++;
-        }
-
-    }
-
-    while (k * 10 <= m)
-        k *= 10;
-
-    k *= (m / k);
-
-    print(n * k);
 }
+
 // -------------------- MAIN --------------------
 
 int main() {

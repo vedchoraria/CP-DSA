@@ -121,6 +121,18 @@ ll factorial(int n) {
 }
 
 // -------------------- HELPERS --------------------
+long long mod(long long x)
+{
+    return ((x % MOD + MOD) % MOD);
+}
+long long add(long long a, long long b)
+{
+    return mod(mod(a) + mod(b));
+}
+long long mul(long long a, long long b)
+{
+    return mod(mod(a) * mod(b));
+}
 
 template<class T>
 void input(vector<T>& v) {

@@ -121,18 +121,6 @@ ll factorial(int n) {
 }
 
 // -------------------- HELPERS --------------------
-long long mod(long long x)
-{
-    return ((x % MOD + MOD) % MOD);
-}
-long long add(long long a, long long b)
-{
-    return mod(mod(a) + mod(b));
-}
-long long mul(long long a, long long b)
-{
-    return mod(mod(a) * mod(b));
-}
 
 template<class T>
 void input(vector<T>& v) {
@@ -170,51 +158,27 @@ bool chmin(T &a, T b) {
 
 void solve() {
 
-    ll n, m;
-    cin >> n >> m;
+    ll n;
+    cin >> n;
+    // So once the smallest valid snowflake for a particular k already exceeds n,
+    //  all larger snowflakes for the same k will also exceed n.
 
-    ll cnt2 = 0, cnt5 = 0;
-
-    ll temp = n;
-
-    while (temp % 2 == 0) {
-        cnt2++;
-        temp /= 2;
-    }
-
-    temp = n;
-
-    while (temp % 5 == 0) {
-        cnt5++;
-        temp /= 5;
-    }
-
-    ll k = 1;
-
-    if (cnt2 > cnt5) {
-
-        while (cnt5 < cnt2 && k * 5 <= m) {
-            k *= 5;
-            cnt5++;
+    for(ll k = 2; k*k<=n ;k++){
+        ll temp = 0;
+        while(temp <= n){
+            temp = temp*k + 1;
+            if(temp == n){
+                YES; return;
+            }
         }
-
-    }
-    else if (cnt5 > cnt2) {
-
-        while (cnt2 < cnt5 && k * 2 <= m) {
-            k *= 2;
-            cnt2++;
-        }
-
     }
 
-    while (k * 10 <= m)
-        k *= 10;
+    NO;
+    return;
 
-    k *= (m / k);
 
-    print(n * k);
 }
+
 // -------------------- MAIN --------------------
 
 int main() {
@@ -225,10 +189,10 @@ int main() {
     // freopen("input.txt", "r", stdin);
     // freopen("output.txt", "w", stdout);
     // #endif
-
+    
     int t = 1;
     cin >> t;
-
+    // cout<<t<<endl;
     while (t--) {
         solve();
     }

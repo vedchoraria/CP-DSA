@@ -170,51 +170,14 @@ bool chmin(T &a, T b) {
 
 void solve() {
 
-    ll n, m;
-    cin >> n >> m;
+    int n;
+    cin >> n;
 
-    ll cnt2 = 0, cnt5 = 0;
+    int m; cin>>m;
+    
 
-    ll temp = n;
-
-    while (temp % 2 == 0) {
-        cnt2++;
-        temp /= 2;
-    }
-
-    temp = n;
-
-    while (temp % 5 == 0) {
-        cnt5++;
-        temp /= 5;
-    }
-
-    ll k = 1;
-
-    if (cnt2 > cnt5) {
-
-        while (cnt5 < cnt2 && k * 5 <= m) {
-            k *= 5;
-            cnt5++;
-        }
-
-    }
-    else if (cnt5 > cnt2) {
-
-        while (cnt2 < cnt5 && k * 2 <= m) {
-            k *= 2;
-            cnt2++;
-        }
-
-    }
-
-    while (k * 10 <= m)
-        k *= 10;
-
-    k *= (m / k);
-
-    print(n * k);
 }
+
 // -------------------- MAIN --------------------
 
 int main() {

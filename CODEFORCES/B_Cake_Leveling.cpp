@@ -167,54 +167,37 @@ bool chmin(T &a, T b) {
 }
 
 // -------------------- SOLVE --------------------
-
-void solve() {
-
-    ll n, m;
-    cin >> n >> m;
-
-    ll cnt2 = 0, cnt5 = 0;
-
-    ll temp = n;
-
-    while (temp % 2 == 0) {
-        cnt2++;
-        temp /= 2;
+bool check(ll height, vector<ll>a, ll right){
+    ll left = 0; ll rem = 0;
+    for(ll i =0;i<=right;i++){
+        a[i] += rem;
+        if(a[i] < height) return false;
+        else rem = a[i]-height;
     }
-
-    temp = n;
-
-    while (temp % 5 == 0) {
-        cnt5++;
-        temp /= 5;
-    }
-
-    ll k = 1;
-
-    if (cnt2 > cnt5) {
-
-        while (cnt5 < cnt2 && k * 5 <= m) {
-            k *= 5;
-            cnt5++;
-        }
-
-    }
-    else if (cnt5 > cnt2) {
-
-        while (cnt2 < cnt5 && k * 2 <= m) {
-            k *= 2;
-            cnt2++;
-        }
-
-    }
-
-    while (k * 10 <= m)
-        k *= 10;
-
-    k *= (m / k);
-
-    print(n * k);
+    return true;
 }
+void solve() {
+    int n;
+    cin >> n;
+
+    vector<long long> a(n);
+
+    for(auto &x : a) cin >> x;
+
+    long long pref = 0;
+    long long mn = LLONG_MAX;
+
+    for(int i = 0; i < n; i++) {
+        pref += a[i];
+
+        mn = min(mn, pref / (i + 1));
+
+        cout << mn << " ";
+    }
+
+    cout << '\n';
+}
+
 // -------------------- MAIN --------------------
 
 int main() {

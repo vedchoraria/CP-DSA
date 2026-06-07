@@ -121,18 +121,6 @@ ll factorial(int n) {
 }
 
 // -------------------- HELPERS --------------------
-long long mod(long long x)
-{
-    return ((x % MOD + MOD) % MOD);
-}
-long long add(long long a, long long b)
-{
-    return mod(mod(a) + mod(b));
-}
-long long mul(long long a, long long b)
-{
-    return mod(mod(a) * mod(b));
-}
 
 template<class T>
 void input(vector<T>& v) {
@@ -170,51 +158,37 @@ bool chmin(T &a, T b) {
 
 void solve() {
 
-    ll n, m;
-    cin >> n >> m;
+    int n;
+    cin >> n;
 
-    ll cnt2 = 0, cnt5 = 0;
+    vector<int> a(n);
+    input(a);
 
-    ll temp = n;
+    // vector<int>product(n,1);
+    // product[0] = a[0];
+    // // for(int i =1 ;i<n;i++){
+    // //     product[i] = product[i-1] * a[i-1];
+        
+    // // }
 
-    while (temp % 2 == 0) {
-        cnt2++;
-        temp /= 2;
-    }
-
-    temp = n;
-
-    while (temp % 5 == 0) {
-        cnt5++;
-        temp /= 5;
-    }
-
-    ll k = 1;
-
-    if (cnt2 > cnt5) {
-
-        while (cnt5 < cnt2 && k * 5 <= m) {
-            k *= 5;
-            cnt5++;
+    for(int i =0;i<n ;i++){
+        int l =0, h = i;
+        int ans =0;
+        while(l <= h){
+            int mid = l + (h-l)/2;
+            if((a[mid] / (i-mid+1) ) >= 1) {h = mid-1; 
+                ans = max(ans, i-mid + 1);
+            }
+            else l = mid+1;
         }
-
-    }
-    else if (cnt5 > cnt2) {
-
-        while (cnt2 < cnt5 && k * 2 <= m) {
-            k *= 2;
-            cnt2++;
-        }
-
+        cout<<ans<<" ";
     }
 
-    while (k * 10 <= m)
-        k *= 10;
+    cout<<endl;
 
-    k *= (m / k);
 
-    print(n * k);
 }
+
 // -------------------- MAIN --------------------
 
 int main() {

@@ -1,6 +1,7 @@
 // Author : VED CHORARIA
 
 #include <bits/stdc++.h>
+#include <bit>
 using namespace std;
 
 // -------------------- TYPEDEFS --------------------
@@ -167,54 +168,50 @@ bool chmin(T &a, T b) {
 }
 
 // -------------------- SOLVE --------------------
-
-void solve() {
-
-    ll n, m;
-    cin >> n >> m;
-
-    ll cnt2 = 0, cnt5 = 0;
-
-    ll temp = n;
-
-    while (temp % 2 == 0) {
-        cnt2++;
-        temp /= 2;
-    }
-
-    temp = n;
-
-    while (temp % 5 == 0) {
-        cnt5++;
-        temp /= 5;
-    }
-
-    ll k = 1;
-
-    if (cnt2 > cnt5) {
-
-        while (cnt5 < cnt2 && k * 5 <= m) {
-            k *= 5;
-            cnt5++;
-        }
-
-    }
-    else if (cnt5 > cnt2) {
-
-        while (cnt2 < cnt5 && k * 2 <= m) {
-            k *= 2;
-            cnt2++;
-        }
-
-    }
-
-    while (k * 10 <= m)
-        k *= 10;
-
-    k *= (m / k);
-
-    print(n * k);
+int helper(string s){
+    int ans =0;
+    for(char c : s) if(c=='1') ans++;
+    return ans;
 }
+int helper2(string a , string b){
+    int ans = 0;
+    for(int i = 0; i<a.size() ;i++){
+        if((a[i] == '1' && b[i] == '0') || (a[i] == '0' && b[i] == '1') ) ans++;
+
+    }
+    return ans;
+}
+void solve() {
+    ll n ; cin>>n;
+    ll k;
+    cin >> k;
+
+    // vector<string> a(2*k+2);
+    string x, y;
+    cin>>x;
+    cin>>y;
+    ll m = (1LL << k) + 1;
+    ll t1 = helper(x);
+    ll t2 = helper(y);
+    ll t3 = helper2(x,y);
+
+    ll x1 = (t1)*(n-t1);
+    ll x2 = (t2)*(n-t2);
+    ll x3 = (t3)*(n-t3);
+    ll ans = 0; ll i =0;
+    // for(i =2 ; i<m; i+= 3){
+    //     ans += x1 + x2 + x3;
+    // }
+    int temp = m/3;
+    ans += 1LL * temp * (x1+x2+x3);
+
+    if(m%3 == 1) ans += x1;
+    if(m%3 == 2) ans += x1+x2;
+    print(ans);
+
+
+}
+
 // -------------------- MAIN --------------------
 
 int main() {

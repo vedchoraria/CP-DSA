@@ -169,51 +169,21 @@ bool chmin(T &a, T b) {
 // -------------------- SOLVE --------------------
 
 void solve() {
-
-    ll n, m;
-    cin >> n >> m;
-
-    ll cnt2 = 0, cnt5 = 0;
-
-    ll temp = n;
-
-    while (temp % 2 == 0) {
-        cnt2++;
-        temp /= 2;
-    }
-
-    temp = n;
-
-    while (temp % 5 == 0) {
-        cnt5++;
-        temp /= 5;
-    }
-
-    ll k = 1;
-
-    if (cnt2 > cnt5) {
-
-        while (cnt5 < cnt2 && k * 5 <= m) {
-            k *= 5;
-            cnt5++;
+    int n, x, m;
+    cin >> n >> x >> m;
+    int L = x, R = x;
+    
+    for (int i = 0; i < m; i++) {
+        int l, r;
+        cin >> l >> r;
+        if (max(L, l) <= min(R, r)) {
+            L = min(L, l);
+            R = max(R, r);
         }
-
     }
-    else if (cnt5 > cnt2) {
-
-        while (cnt2 < cnt5 && k * 2 <= m) {
-            k *= 2;
-            cnt2++;
-        }
-
-    }
-
-    while (k * 10 <= m)
-        k *= 10;
-
-    k *= (m / k);
-
-    print(n * k);
+    
+    // The number of possible indices is the length of the final interval
+    cout << (R - L + 1) << endl;
 }
 // -------------------- MAIN --------------------
 

@@ -161,32 +161,36 @@ void solve() {
     ll n;
     cin >> n;
     ll m; cin>>m;
-    unordered_map<ll, vector<pll> >mpp;
-
-    for(ll i =1;i<=n;i++){
-        for(ll j =1;j<=m;j++){
-            ll a; cin>>a;
-            mpp[a].pb({i,j});
+    map<ll , vector<ll>>x;
+    map<ll , vector<ll>>y;
+    for(ll i = 1; i <= n ;i++)
+    {  
+        for(ll j = 1; j<= m ;j++){
+            ll c; cin>>c;
+            x[c].pb(i);
+            y[c].pb(j);
         }
     }
-    ll ans =0;
-    for(auto it : mpp){
-        ll s = (ll)it.second.size();
-        for(ll i =0;i<s;i++){
-            ll a1 = it.second[i].first;
-            ll b1 = it.second[i].second;
-            for(ll j = i+1;j<s;j++){
-                ll a2 = it.second[j].first;
-                ll b2 = it.second[j].second;
-                ans += abs(a2-a1);
-                ans += abs(b2-b1);
-            }
+    ll ans = 0;
+    for(auto [c,it] : x){
+        sort(it.begin(), it.end());
+
+        ll k = it.size();
+        for(ll i = 0; i< k; i++){
+            ans += ((i*1) + (-1)*(k-i-1)) * it[i];
+        }
+    }
+    for(auto [c,it] : y){
+        sort(it.begin(), it.end());
+
+        ll k = it.size();
+        for(ll i = 0; i< k; i++){
+            ans += ((i*1) + (-1)*(k-i-1))* it[i];
         }
     }
     print(ans);
-
 }
-ekgakeuckyvycvbycj
+
 // -------------------- MAIN --------------------
 
 int main() {

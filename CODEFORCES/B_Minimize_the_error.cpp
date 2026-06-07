@@ -170,51 +170,37 @@ bool chmin(T &a, T b) {
 
 void solve() {
 
-    ll n, m;
-    cin >> n >> m;
-
-    ll cnt2 = 0, cnt5 = 0;
-
-    ll temp = n;
-
-    while (temp % 2 == 0) {
-        cnt2++;
-        temp /= 2;
+    ll n;
+    cin >> n;
+    ll k1, k2 ;
+    cin>>k1>>k2;
+    vector<ll> a(n), b(n);
+    input(a); input(b);
+    priority_queue<ll>pq;
+    ll k = k1 + k2;
+    for(ll i =0;i<n;i++){
+        ll t = abs(a[i]-b[i]);
+        if(t == 0) continue;
+        pq.push(t);
     }
-
-    temp = n;
-
-    while (temp % 5 == 0) {
-        cnt5++;
-        temp /= 5;
+    while(!pq.empty() && (k != 0)){
+        ll x = pq.top();
+        pq.pop();
+        x--;
+        k--;
+        if(x == 0) continue;
+        pq.push(x);
     }
-
-    ll k = 1;
-
-    if (cnt2 > cnt5) {
-
-        while (cnt5 < cnt2 && k * 5 <= m) {
-            k *= 5;
-            cnt5++;
-        }
-
+    ll ans = 0;
+    if(k&1) ans++;
+    while(!pq.empty()){
+        ans += pq.top()*pq.top();
+        pq.pop();
     }
-    else if (cnt5 > cnt2) {
+    print(ans);
 
-        while (cnt2 < cnt5 && k * 2 <= m) {
-            k *= 2;
-            cnt2++;
-        }
-
-    }
-
-    while (k * 10 <= m)
-        k *= 10;
-
-    k *= (m / k);
-
-    print(n * k);
 }
+
 // -------------------- MAIN --------------------
 
 int main() {
@@ -226,12 +212,12 @@ int main() {
     // freopen("output.txt", "w", stdout);
     // #endif
 
-    int t = 1;
-    cin >> t;
+    // int t = 1;
+    // cin >> t;
 
-    while (t--) {
+    // while (t--) {
         solve();
-    }
+    // }
 
     return 0;
 }

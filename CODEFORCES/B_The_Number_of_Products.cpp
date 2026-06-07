@@ -170,51 +170,39 @@ bool chmin(T &a, T b) {
 
 void solve() {
 
-    ll n, m;
-    cin >> n >> m;
+    ll n;
+    cin >> n;
 
-    ll cnt2 = 0, cnt5 = 0;
-
-    ll temp = n;
-
-    while (temp % 2 == 0) {
-        cnt2++;
-        temp /= 2;
+    vector<ll> a(n);
+    input(a); 
+    vector<ll>neg(n,0), pos(n,0);
+    if(a[0] > 0){
+        pos[0] = 1; neg[0] = 0;
+    }
+    else{
+        pos[0] = 0; neg[0] = 1;
     }
 
-    temp = n;
-
-    while (temp % 5 == 0) {
-        cnt5++;
-        temp /= 5;
-    }
-
-    ll k = 1;
-
-    if (cnt2 > cnt5) {
-
-        while (cnt5 < cnt2 && k * 5 <= m) {
-            k *= 5;
-            cnt5++;
+    for(ll i = 1; i < n ;i ++){
+        if(a[i] > 0){
+            neg[i] = neg[i-1];
+            pos[i] = 1 + pos[i-1];
         }
 
-    }
-    else if (cnt5 > cnt2) {
-
-        while (cnt2 < cnt5 && k * 2 <= m) {
-            k *= 2;
-            cnt2++;
+        else{
+            neg[i] = 1 + pos[i-1];
+            pos[i] = neg[i-1];
         }
-
     }
 
-    while (k * 10 <= m)
-        k *= 10;
+    ll po = 0 , ne = 0;
+    for(ll i : pos) po+=i;
+    for(ll i : neg) ne+=i;
 
-    k *= (m / k);
+    cout<<ne<<" "<<po<<endl;
 
-    print(n * k);
 }
+
 // -------------------- MAIN --------------------
 
 int main() {
@@ -227,7 +215,7 @@ int main() {
     // #endif
 
     int t = 1;
-    cin >> t;
+    // cin >> t;
 
     while (t--) {
         solve();

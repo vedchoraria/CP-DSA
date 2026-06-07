@@ -121,18 +121,6 @@ ll factorial(int n) {
 }
 
 // -------------------- HELPERS --------------------
-long long mod(long long x)
-{
-    return ((x % MOD + MOD) % MOD);
-}
-long long add(long long a, long long b)
-{
-    return mod(mod(a) + mod(b));
-}
-long long mul(long long a, long long b)
-{
-    return mod(mod(a) * mod(b));
-}
 
 template<class T>
 void input(vector<T>& v) {
@@ -170,51 +158,30 @@ bool chmin(T &a, T b) {
 
 void solve() {
 
-    ll n, m;
-    cin >> n >> m;
-
-    ll cnt2 = 0, cnt5 = 0;
-
-    ll temp = n;
-
-    while (temp % 2 == 0) {
-        cnt2++;
-        temp /= 2;
-    }
-
-    temp = n;
-
-    while (temp % 5 == 0) {
-        cnt5++;
-        temp /= 5;
-    }
-
-    ll k = 1;
-
-    if (cnt2 > cnt5) {
-
-        while (cnt5 < cnt2 && k * 5 <= m) {
-            k *= 5;
-            cnt5++;
+    int n;
+    cin >> n;
+    int m; cin>>m;
+    vector<int> a(n);
+    input(a);
+    vector<ll>dp(n+1, 0);
+    
+    for(int i =0;i<n;i++){
+        if(a[i] == 0){
+            for(int j =1;j<=m;j++){
+                if(i > 0 && abs(a[i-1]-j) > 1)continue;
+                if((i<n-1) && abs(a[i+1]-j ) > 1 ) continue;
+            }
         }
-
     }
-    else if (cnt5 > cnt2) {
-
-        while (cnt2 < cnt5 && k * 2 <= m) {
-            k *= 2;
-            cnt2++;
-        }
-
+    // debug(dp);
+    int ans = 1;
+    for(int i : dp){
+        ans = (ans*i)%MOD;
     }
+    print(ans);
 
-    while (k * 10 <= m)
-        k *= 10;
-
-    k *= (m / k);
-
-    print(n * k);
 }
+
 // -------------------- MAIN --------------------
 
 int main() {
@@ -225,13 +192,13 @@ int main() {
     // freopen("input.txt", "r", stdin);
     // freopen("output.txt", "w", stdout);
     // #endif
+// 
+    // int t = 1;
+    // cin >> t;
 
-    int t = 1;
-    cin >> t;
-
-    while (t--) {
+    // while (t--) {
         solve();
-    }
+    // }
 
     return 0;
 }

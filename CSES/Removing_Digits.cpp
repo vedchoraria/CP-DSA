@@ -121,18 +121,6 @@ ll factorial(int n) {
 }
 
 // -------------------- HELPERS --------------------
-long long mod(long long x)
-{
-    return ((x % MOD + MOD) % MOD);
-}
-long long add(long long a, long long b)
-{
-    return mod(mod(a) + mod(b));
-}
-long long mul(long long a, long long b)
-{
-    return mod(mod(a) * mod(b));
-}
 
 template<class T>
 void input(vector<T>& v) {
@@ -167,54 +155,36 @@ bool chmin(T &a, T b) {
 }
 
 // -------------------- SOLVE --------------------
+// int help(int n, vector<int>&dp){
+//     if(n<=0) return 0;
 
+//     if(dp[n] != -1) return dp[n];
+
+
+// }
 void solve() {
 
-    ll n, m;
-    cin >> n >> m;
+    int n;
+    cin >> n;
+    
+    vector<int> dp(n+1);
+    for(int temp =1;temp<=n;temp++){
+        int i = temp;
+        int ma = 0;
+        while(i!=0){
+            int digit = i%10;
+            i/=10;
+            ma = max(ma, digit);
 
-    ll cnt2 = 0, cnt5 = 0;
-
-    ll temp = n;
-
-    while (temp % 2 == 0) {
-        cnt2++;
-        temp /= 2;
-    }
-
-    temp = n;
-
-    while (temp % 5 == 0) {
-        cnt5++;
-        temp /= 5;
-    }
-
-    ll k = 1;
-
-    if (cnt2 > cnt5) {
-
-        while (cnt5 < cnt2 && k * 5 <= m) {
-            k *= 5;
-            cnt5++;
         }
-
+        if(temp>=ma)
+        dp[temp] = 1 + dp[temp-ma];
+        else dp[temp] = 1;
     }
-    else if (cnt5 > cnt2) {
+    cout<<dp[n]<<endl;
 
-        while (cnt2 < cnt5 && k * 2 <= m) {
-            k *= 2;
-            cnt2++;
-        }
-
-    }
-
-    while (k * 10 <= m)
-        k *= 10;
-
-    k *= (m / k);
-
-    print(n * k);
 }
+
 // -------------------- MAIN --------------------
 
 int main() {
@@ -226,12 +196,12 @@ int main() {
     // freopen("output.txt", "w", stdout);
     // #endif
 
-    int t = 1;
-    cin >> t;
+    // int t = 1;
+    // cin >> t;
 
-    while (t--) {
+    // while (t--) {
         solve();
-    }
+    // }
 
     return 0;
 }

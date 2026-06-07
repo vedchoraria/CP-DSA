@@ -167,54 +167,85 @@ bool chmin(T &a, T b) {
 }
 
 // -------------------- SOLVE --------------------
-
+bool check(ll height, vector<ll>a, ll right){
+    ll left = 0; ll rem = 0;
+    for(ll i =0;i<=right;i++){
+        a[i] += rem;
+        if(a[i] < height) return false;
+        else rem = a[i]-height;
+    }
+    return true;
+}
 void solve() {
 
-    ll n, m;
-    cin >> n >> m;
-
-    ll cnt2 = 0, cnt5 = 0;
-
-    ll temp = n;
-
-    while (temp % 2 == 0) {
-        cnt2++;
-        temp /= 2;
+    ll n;
+    cin >> n; 
+    ll x; ll s;
+   
+    cin>>x>>s;
+    string per; cin>>per;
+    
+    vector<ll> dp(x+1, s);
+    ll ans =0;
+    ll intro =0, extro = 0, ambi =0;
+    
+    
+    for(char c : per) {
+        if(c == 'I') intro ++;
+        else if(c == 'E') extro ++;
+        else ambi++;
     }
+    
+    // if intro > extro , then ambi on an extro table
+    // ll i =0, j =0;//i => intro table , j => extro table 
+    for(ll k =0; k< n; k++){
 
-    temp = n;
+        char c = per[k];
+        debug(c);
+        if(c=='I'){
+            for(ll i=0;i<x;i++){
+                if(dp[i] == s) {
+                    dp[i]--; ans ++;
 
-    while (temp % 5 == 0) {
-        cnt5++;
-        temp /= 5;
-    }
-
-    ll k = 1;
-
-    if (cnt2 > cnt5) {
-
-        while (cnt5 < cnt2 && k * 5 <= m) {
-            k *= 5;
-            cnt5++;
+                }
+            }
+            intro --;
         }
 
-    }
-    else if (cnt5 > cnt2) {
+        else if(c == 'E'){
+            for(ll i=0;i<x;i++){
+                if(dp[i] != s && dp[i] > 0) {
+                    dp[i]--; ans ++;
 
-        while (cnt2 < cnt5 && k * 2 <= m) {
-            k *= 2;
-            cnt2++;
+                }
+            }
+            extro --;
         }
-
+        else{
+            if(k==0) {dp[0]--; ambi--; continue; }
+            else if(intro > extro){
+                per[k] = 'E';
+                k--;
+                extro++;
+                ambi--;
+                // cout<<2<<endl;
+            }
+            else{
+                per[k] = 'I';
+                k--;
+                intro++;
+                ambi--;
+                // cout<<4<<endl;
+            }
+        }
+        debug(k); debug(ans);
     }
 
-    while (k * 10 <= m)
-        k *= 10;
+    print(ans);
 
-    k *= (m / k);
 
-    print(n * k);
 }
+
 // -------------------- MAIN --------------------
 
 int main() {

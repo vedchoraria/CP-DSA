@@ -121,18 +121,6 @@ ll factorial(int n) {
 }
 
 // -------------------- HELPERS --------------------
-long long mod(long long x)
-{
-    return ((x % MOD + MOD) % MOD);
-}
-long long add(long long a, long long b)
-{
-    return mod(mod(a) + mod(b));
-}
-long long mul(long long a, long long b)
-{
-    return mod(mod(a) * mod(b));
-}
 
 template<class T>
 void input(vector<T>& v) {
@@ -167,54 +155,45 @@ bool chmin(T &a, T b) {
 }
 
 // -------------------- SOLVE --------------------
+ll ans = 0; 
+// ll help(ll target, ll index, vector<ll>&a, vector<vector<ll>>&dp){
+//     ll n = a.size();
 
+
+//     if(target == 0) return 1;
+//     if(index == n) return 0;
+
+//     if(dp[index][target] != -1) return dp[index][target];
+
+//     ll take = 0;
+//     if(a[index] <= target)
+//     take = help(target - a[index], index, a, dp);
+
+//     ll nt = help(target, index+1, a , dp);
+
+//     return dp[index][target] = take + nt;
+
+// }
 void solve() {
 
-    ll n, m;
-    cin >> n >> m;
-
-    ll cnt2 = 0, cnt5 = 0;
-
-    ll temp = n;
-
-    while (temp % 2 == 0) {
-        cnt2++;
-        temp /= 2;
-    }
-
-    temp = n;
-
-    while (temp % 5 == 0) {
-        cnt5++;
-        temp /= 5;
-    }
-
-    ll k = 1;
-
-    if (cnt2 > cnt5) {
-
-        while (cnt5 < cnt2 && k * 5 <= m) {
-            k *= 5;
-            cnt5++;
+    ll n;
+    cin >> n;
+    ll target = 0 ;
+    cin >> target;
+    vector<ll> coins(n);
+    input(coins);
+    vector<ll> dp(target+1, 0);
+    dp[0] = 1;
+    for(ll coin : coins){
+        for(ll i =1;i<=target;i++){
+            if(i>= coin)
+            dp[i] = (dp[i] + dp[i-coin])%MOD;
         }
-
     }
-    else if (cnt5 > cnt2) {
+    cout<<dp[target]<<endl;
 
-        while (cnt2 < cnt5 && k * 2 <= m) {
-            k *= 2;
-            cnt2++;
-        }
-
-    }
-
-    while (k * 10 <= m)
-        k *= 10;
-
-    k *= (m / k);
-
-    print(n * k);
 }
+
 // -------------------- MAIN --------------------
 
 int main() {
@@ -226,12 +205,12 @@ int main() {
     // freopen("output.txt", "w", stdout);
     // #endif
 
-    int t = 1;
-    cin >> t;
+    // int t = 1;
+    // cin >> t;
 
-    while (t--) {
+    // while (t--) {
         solve();
-    }
+    // }
 
     return 0;
 }

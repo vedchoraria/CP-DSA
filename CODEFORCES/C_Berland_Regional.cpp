@@ -21,7 +21,7 @@ using vec = vector<T>;
 #define pb push_back
 #define ff first
 #define ss second
-#define all(x) (x).begin(), (x).end()
+#define all(x) (x).rbegin(), (x).rend()
 
 #define endl '\n'
 
@@ -170,51 +170,56 @@ bool chmin(T &a, T b) {
 
 void solve() {
 
-    ll n, m;
-    cin >> n >> m;
+    ll n;
+    cin >> n;
 
-    ll cnt2 = 0, cnt5 = 0;
-
-    ll temp = n;
-
-    while (temp % 2 == 0) {
-        cnt2++;
-        temp /= 2;
+    vector<ll> u(n) , s(n);
+    input(u); input(s);
+    unordered_map<ll, vector<ll> > mpp;
+    ll ma = 0;
+    for(ll i =0 ; i<n ; i++){
+        mpp[u[i]].pb(s[i]);
+        // ma = max(ma , (ll)mpp[u[i]].size());
     }
+    vector<ll> dp(n+1, 0);
 
-    temp = n;
-
-    while (temp % 5 == 0) {
-        cnt5++;
-        temp /= 5;
-    }
-
-    ll k = 1;
-
-    if (cnt2 > cnt5) {
-
-        while (cnt5 < cnt2 && k * 5 <= m) {
-            k *= 5;
-            cnt5++;
+    for(auto [x, it] : mpp){
+        sort(all(it));
+        ll m = it.size();
+        
+        if(m <= 1){
+            dp[1]+= it[0];
+            continue;
         }
 
-    }
-    else if (cnt5 > cnt2) {
-
-        while (cnt2 < cnt5 && k * 2 <= m) {
-            k *= 2;
-            cnt2++;
+        vector<ll>pref(n,0);
+        pref[0] = it[0];
+        for(ll i = 1; i< m ; i++){
+            pref[i] += pref[i-1] + it[i];
         }
 
+        for(ll k =m ; k>0 ;k--){
+            // ll ttem = pref[ n-(n%k) - 1 ]; debug(ttem);
+            ll index = m-(m%k) - 1;
+            // debug(index);
+            // debug(pref[index]);
+            if(index > 0 && index < n)
+            dp[k] += pref[index ];
+        }
+        // debug(x); debug(it); debug(pref);
+        // debug(dp);
     }
 
-    while (k * 10 <= m)
-        k *= 10;
+    // debug(dp);
+    for(ll i = 1; i<=n ;i++){
+        cout<<dp[i]<<" ";
+    }
+    cout<<endl;
 
-    k *= (m / k);
 
-    print(n * k);
+
 }
+
 // -------------------- MAIN --------------------
 
 int main() {

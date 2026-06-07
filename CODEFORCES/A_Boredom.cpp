@@ -170,51 +170,35 @@ bool chmin(T &a, T b) {
 
 void solve() {
 
-    ll n, m;
-    cin >> n >> m;
+    ll n;
+    cin >> n;
 
-    ll cnt2 = 0, cnt5 = 0;
-
-    ll temp = n;
-
-    while (temp % 2 == 0) {
-        cnt2++;
-        temp /= 2;
+    vector<ll> a(n);
+    input(a);
+    map<ll,ll>mpp;
+    ll ma =0;
+    for(ll i : a){ mpp[i]++;
+    
+    ma = max(ma, i);
     }
+    vector<ll>dp(ma+1 , 0);
 
-    temp = n;
-
-    while (temp % 5 == 0) {
-        cnt5++;
-        temp /= 5;
+    for(auto[x,y] : mpp){
+        mpp[x] = x*y;
+        dp[x] = mpp[x];
+        
     }
-
-    ll k = 1;
-
-    if (cnt2 > cnt5) {
-
-        while (cnt5 < cnt2 && k * 5 <= m) {
-            k *= 5;
-            cnt5++;
-        }
-
+    dp[0] = mpp[0];
+    dp[1] = max(dp[1], dp[0]);
+    for(ll i =2;i<=ma;i++){
+        dp[i] = max(dp[i] + dp[i-2], dp[i-1]);
     }
-    else if (cnt5 > cnt2) {
+    print(dp[ma]);
+    // debug(dp);
 
-        while (cnt2 < cnt5 && k * 2 <= m) {
-            k *= 2;
-            cnt2++;
-        }
 
-    }
-
-    while (k * 10 <= m)
-        k *= 10;
-
-    k *= (m / k);
-
-    print(n * k);
 }
+
 // -------------------- MAIN --------------------
 
 int main() {
@@ -226,12 +210,12 @@ int main() {
     // freopen("output.txt", "w", stdout);
     // #endif
 
-    int t = 1;
-    cin >> t;
+    // int t = 1;
+    // cin >> t;
 
-    while (t--) {
+    // while (t--) {
         solve();
-    }
+    // }
 
     return 0;
 }

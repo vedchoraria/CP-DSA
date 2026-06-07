@@ -36,20 +36,21 @@ using vec = vector<T>;
 
 #define debug(x) cerr << #x << " = "; _print(x); cerr << endl;
 
-void _print(int x) { cerr << x; }
-void _print(ll x) { cerr << x; }
+void _print(int x) { cout << x; }
+void _print(ll x) { cout << x; }
 void _print(string x) { cerr << x; }
 void _print(char x) { cerr << x; }
 void _print(bool x) { cerr << x; }
 
 template<class T>
 void _print(vector<T> v) {
-    cerr << "[ ";
+    // cerr << "[ ";
     for (auto i : v) {
         _print(i);
-        cerr << " ";
+        cout << " ";
     }
-    cerr << "]";
+    // cerr << "]";
+    cout<<endl;
 }
 
 template<class T, class V>
@@ -170,51 +171,36 @@ bool chmin(T &a, T b) {
 
 void solve() {
 
-    ll n, m;
-    cin >> n >> m;
+    ll n;
+    cin >> n;
 
-    ll cnt2 = 0, cnt5 = 0;
+    vector<ll> h(n), ans(n);
+    input(h);
 
-    ll temp = n;
-
-    while (temp % 2 == 0) {
-        cnt2++;
-        temp /= 2;
-    }
-
-    temp = n;
-
-    while (temp % 5 == 0) {
-        cnt5++;
-        temp /= 5;
-    }
-
-    ll k = 1;
-
-    if (cnt2 > cnt5) {
-
-        while (cnt5 < cnt2 && k * 5 <= m) {
-            k *= 5;
-            cnt5++;
+    for(int r = 0; r<n; r++){
+        vector<ll>a(n);
+        for(int i = 0; i<n ;i++){
+            a[i] = h[(r+i) % n];
         }
 
-    }
-    else if (cnt5 > cnt2) {
+        vector<ll> pref(n), suff(n);
 
-        while (cnt2 < cnt5 && k * 2 <= m) {
-            k *= 2;
-            cnt2++;
+        pref[0] = a[0];
+        suff[n-1] = a[n-1];
+        for(int i =1; i< n ;i++) pref[i] = max(pref[i-1] , a[i]);
+        for(int j = n-2; j>=0; j--) suff[j] = max(suff[j+1] , a[j]);
+        ll res = 0;
+        for(int j =1 ; j<n ;j++){
+            res += min(pref[j-1], suff[j]);
         }
-
+        ans[r] = res;
     }
 
-    while (k * 10 <= m)
-        k *= 10;
+    for(ll i : ans) cout<<i<<" ";
+    cout<<endl;
 
-    k *= (m / k);
-
-    print(n * k);
 }
+
 // -------------------- MAIN --------------------
 
 int main() {

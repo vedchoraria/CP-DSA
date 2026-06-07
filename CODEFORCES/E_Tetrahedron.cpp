@@ -168,53 +168,23 @@ bool chmin(T &a, T b) {
 
 // -------------------- SOLVE --------------------
 
-void solve() {
+int help(int n){
+    if(n<= 0) return 0;
 
-    ll n, m;
-    cin >> n >> m;
-
-    ll cnt2 = 0, cnt5 = 0;
-
-    ll temp = n;
-
-    while (temp % 2 == 0) {
-        cnt2++;
-        temp /= 2;
-    }
-
-    temp = n;
-
-    while (temp % 5 == 0) {
-        cnt5++;
-        temp /= 5;
-    }
-
-    ll k = 1;
-
-    if (cnt2 > cnt5) {
-
-        while (cnt5 < cnt2 && k * 5 <= m) {
-            k *= 5;
-            cnt5++;
-        }
-
-    }
-    else if (cnt5 > cnt2) {
-
-        while (cnt2 < cnt5 && k * 2 <= m) {
-            k *= 2;
-            cnt2++;
-        }
-
-    }
-
-    while (k * 10 <= m)
-        k *= 10;
-
-    k *= (m / k);
-
-    print(n * k);
 }
+void solve(){
+  ll n;cin>>n;
+  ll a = 0, b = 1, na, nb;
+  for(int i=2; i<=n; i++){
+    na = b*3, nb = a + b*2;
+    na %= mod;
+    nb %= mod;
+    a = na;
+    b = nb;
+  }
+  cout<<a<<ln;
+}
+
 // -------------------- MAIN --------------------
 
 int main() {
@@ -226,12 +196,12 @@ int main() {
     // freopen("output.txt", "w", stdout);
     // #endif
 
-    int t = 1;
-    cin >> t;
+    // int t = 1;
+    // cin >> t;
 
-    while (t--) {
+    // while (t--) {
         solve();
-    }
+    // }
 
     return 0;
 }

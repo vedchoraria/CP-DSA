@@ -167,54 +167,54 @@ bool chmin(T &a, T b) {
 }
 
 // -------------------- SOLVE --------------------
-
-void solve() {
-
-    ll n, m;
-    cin >> n >> m;
-
-    ll cnt2 = 0, cnt5 = 0;
-
-    ll temp = n;
-
-    while (temp % 2 == 0) {
-        cnt2++;
-        temp /= 2;
-    }
-
-    temp = n;
-
-    while (temp % 5 == 0) {
-        cnt5++;
-        temp /= 5;
-    }
-
-    ll k = 1;
-
-    if (cnt2 > cnt5) {
-
-        while (cnt5 < cnt2 && k * 5 <= m) {
-            k *= 5;
-            cnt5++;
+void solve(){
+        int n,k;
+        cin>>n>>k;
+        vector<long long>arr(n);
+        for(int i=0;i<n;i++)cin>>arr[i];
+        if(k>=3){
+            cout<<0<<endl;
+            return ;
         }
-
-    }
-    else if (cnt5 > cnt2) {
-
-        while (cnt2 < cnt5 && k * 2 <= m) {
-            k *= 2;
-            cnt2++;
+        sort(arr.begin(),arr.end());
+        if(k==1){
+            long long ans=arr[n-1];
+            for(int i=0;i<n-1;i++)ans=min({ans,abs(arr[i]-arr[i+1]),arr[i]});
+            cout<<ans<<endl;
         }
-
+        else {
+            long long ans=arr[n-1];
+            for(int i=0;i<n-1;i++){
+                ans=min(arr[i],ans);
+                for(int j=i+1;j<n;j++){
+                    if(arr[j]>arr[i]*3)break;
+                    ans=min(ans,arr[j]-arr[i]);
+                    int l=0,r=i;
+                    long long diff=arr[j]-arr[i];
+                    while(r>=l){
+                        int mid=l+(r-l)/2;
+                        if(arr[mid]==diff){
+                            ans=0;
+                            break;
+                        }
+                        else if(arr[mid]<diff){
+                            ans=min(ans,diff-arr[mid]);
+                            l=mid+1;
+                        }
+                        else{
+                            ans=min(ans,arr[mid]-diff);
+                            r=mid-1;
+ 
+                        }
+                    }
+ 
+                }
+            }
+            cout<<ans<<endl;
+ 
+        }
     }
 
-    while (k * 10 <= m)
-        k *= 10;
-
-    k *= (m / k);
-
-    print(n * k);
-}
 // -------------------- MAIN --------------------
 
 int main() {
