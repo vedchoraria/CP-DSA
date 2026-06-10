@@ -28,15 +28,11 @@ public:
             }
         }
 
-        while(list1 != nullptr){
-            temp->next = new ListNode(list1->val);
-            temp = temp->next;
-            list1 = list1->next;
+        if(list1 != nullptr){
+            temp->next = list1;
         }
-        while(list2 != nullptr){
-            temp->next = new ListNode(list2->val);
-            temp = temp->next;
-            list2 = list2->next;
+        else{
+            temp->next = list2;
         }
         return root->next;
     }
