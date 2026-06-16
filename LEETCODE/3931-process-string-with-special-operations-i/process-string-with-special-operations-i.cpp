@@ -5,7 +5,7 @@ public:
         for(char c : s){
             if(c == '*' ){
                 if((int)ans.size()>0)
-                ans = ans.substr(0,ans.size()-1);
+                ans.pop_back();
             }
             else if(c == '#'){
                 ans += ans;
