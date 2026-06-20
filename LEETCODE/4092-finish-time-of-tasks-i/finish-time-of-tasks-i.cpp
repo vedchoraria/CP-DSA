@@ -8,9 +8,9 @@ long long solve(vector<long long>&dp , vector<vector<int>>&adj, vector<int>& bas
     long long mi = LLONG_MAX;
     long long ma = 0;
 
-    for(long long j =0; j < adj[i].size() ; j++){
+    for(int child : adj[i]){
 
-        long long t = solve(dp,adj,baseTime, adj[i][j]);
+        long long t = solve(dp,adj,baseTime, child);
         mi = min(mi, t);
         ma = max(ma,t);
     }
