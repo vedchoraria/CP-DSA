@@ -1,70 +1,42 @@
-const int mx = 1000;
+//Time complexity: O(n),  Space complexity: O(1)
 class Solution {
-    int cnt[mx][26];
+
+    const int all_set = (1 << 5) - 1;
+    
 public:
-    int countVowelSubstrings(string s) {
-        int n = s.size();
-        memset(cnt, 0, sizeof(cnt));
-        for(int i=0; i<n; i++){
-            int ch = s[i]-'a';
-            if(i>0){
-                for(int j=0; j<26; j++){
-                    cnt[i][j] += cnt[i-1][j];
-                }
-            }
-            cnt[i][ch] += 1;
+    int countVowelSubstrings(string word) {
+
+        vector<int> mask_pos(125, -1);
+        int pos = 0;
+        for(char ch : "aeiou") {
+            mask_pos[ch] = pos++;
         }
-        set<char>st;
-        st.insert('a');
-        st.insert('e');
-        st.insert('i');
-        st.insert('o');
-        st.insert('u');
-        auto poss = [&](int l, int r){
-            for(int j=0; j<26; j++){
-                char ch = 'a'+j;
-                if(st.find(ch) == st.end()){
-                    if((cnt[r][j]-((l>0) ? cnt[l-1][j] : 0)) != 0){
-                        if(r == 4) cout<<(cnt[r][j]-((l>0) ? cnt[l-1][j] : 0))<<endl;
-                        return 0;
-                    }
-                }else{
-                    if((cnt[r][j]-((l>0) ? cnt[l-1][j] : 0)) == 0){
-                        return 2;
-                    } 
-                }
-            }
-            return 1;
-        };
+
         int ans = 0;
-        map<char, int>mp;
-        for(int i=0; i<n; i++){
-            if(st.find(s[i]) == st.end()){
-                mp.clear(); continue;
-            }else{
-                mp[s[i]]++;
-            }
-            if(mp.size() != 5) continue;
-            int l = -1, r = i+1, mid;
-            while(r-l>1){
-                mid = (l+r)/2;
-                int val = poss(mid, i);
-                if(val == 1) r = mid;
-                else if(val == 2) r = mid;
-                else l = mid;
-            }
+        vector<int> dp(1 << 5);
+        vector<int> prev_dp(1 << 5);
+        dp[0] = 1;
+        for(auto ch : word) {
             
-            if(r<i){
-                int left = r;
-                l = r, r = i+1;
-                while(r-l>1){
-                    mid = (l+r)/2;
-                    if(poss(mid, i) == 1) l = mid;
-                    else r = mid; 
+            pos = mask_pos[ch];
+
+            if(pos < 0) {
+                fill(dp.begin(), dp.end(), 0);
+                dp[0] = 1; //#empty strings ending at position i
+            } else {
+                prev_dp = dp;
+                dp[0] = 1;  //#empty strings ending at position i
+                for(int mask = 1; mask <= all_set; mask++) {
+                    if(mask & (1 << pos)) {
+                        dp[mask] = prev_dp[mask] + prev_dp[mask ^ (1 << pos)];
+                    } else {
+                        dp[mask] = 0;
+                    }
                 }
-                ans += l-left+1;
+                ans += dp[all_set];
             }
         }
+
         return ans;
-    }   
+    }
 };
