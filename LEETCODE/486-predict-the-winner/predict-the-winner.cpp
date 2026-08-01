@@ -2,17 +2,16 @@ class Solution {
 public:
     bool predictTheWinner(vector<int>& nums) {
         int n = nums.size();
-        
-        // Define the recursion function with explicit std::function type and [&] capture
-        function<int(int, int)> solve = [&](int l, int r){
-            if (l == r) return nums[l]; // Base case
-            
-            int takeLeft = nums[l] - solve(l + 1, r);
-            int takeRight = nums[r] - solve(l, r - 1);
-            
-            return max(takeLeft, takeRight);
-        };
+        vector<int> dp(nums);
 
-        return solve(0, n - 1) >= 0;
+        for (int len = 2; len <= n; len++) {
+            for (int i = 0; i + len - 1 < n; i++) {
+                int j = i + len - 1;
+                dp[i] = max(nums[i] - dp[i + 1],
+                            nums[j] - dp[i]);
+            }
+        }
+
+        return dp[0] >= 0;
     }
 };
