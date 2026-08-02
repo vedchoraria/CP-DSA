@@ -1,37 +1,21 @@
 class Solution {
 public:
     bool stoneGame(vector<int>& piles) {
-        bool alice = true;
         int n = piles.size();
-        int cnt = 0;
-        int i =0 , j = n-1;
-        while(i <= j){
-            int temp = 0;
-            if(piles[i] > piles[j]){
-                temp += piles[i];
-                i++;
-            }
-            else if(piles[i] < piles[j]){
-                temp += piles[j];
-                j--;
-            }
-            else{
-                if(i < n-1 && j > 0 && piles[i+1] > piles[j-1] ){
-                    temp += piles[j];
-                    j--;
-                }
-                else {
-                    temp += piles[i];
-                    i++;
-                }
-            }
+        // l to r 
+        vector<vector<int>>dp(n+1,vector<int>(n+1,0));
 
-            if(alice) cnt += temp;
-            else cnt -= temp;
+        for(int i =0 ;i < n; i++) dp[i][i] = piles[i];
 
-        }
+        for(int len = 2;len<=n;len++){
+            for(int i = 0; i+len-1 < n ; i++){
+                dp[i][i+len-1] = max(
+                    piles[i] - dp[i+1][i+len-1], 
+                    piles[i+len-1] - dp[i][i+len-2]
+                );
+            }
+        } 
 
-        if(cnt >= 0) return true;
-        else return false;
+        return dp[0][n-1]>=0;
     }
 };
