@@ -19,7 +19,7 @@ public:
         for(int i = 1; i <= n; i++){
             
             for(int j =1 ; j*j <= i;j++){
-                if(!dp[i-j*j]) dp[i] = true;
+                if(!dp[i-j*j]) {dp[i] = true; break;}
             }
             
         }
