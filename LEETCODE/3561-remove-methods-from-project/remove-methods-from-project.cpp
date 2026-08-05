@@ -1,44 +1,55 @@
+constexpr int MAXN = 100005;
+
 class Solution {
-    int fa[100005];
-    int f(int a) {return fa[a] = (fa[a] == a) ? a : f(fa[a]);}
-    void unite(int a, int b) {fa[f(a)] = f(b);}
 public:
-    vector<int> remainingMethods(int n, int k, vector<vector<int>>& ed) {
-        vector<int> adj[n];
-        for(int i=0; i<n; i++) fa[i] = i;
-        for(auto &i: ed){
-            adj[i[0]].push_back(i[1]);
-            unite(i[0], i[1]);
+    vector<int> remainingMethods(int n, int k,
+                                 vector<vector<int>>& invocations) {
+        vector<vector<int>> edges(n);
+        vector<int> inDegree(n, 0);
+
+        bitset<MAXN> suspicious;
+
+        for (const auto& inv : invocations) {
+            edges[inv[0]].push_back(inv[1]);
+            inDegree[inv[1]]++;
         }
-        vector<bool>vis(n, 0);
-        queue<int>q;
+
+        queue<int> q;
         q.push(k);
-        vis[k] = 1;
-        while(!q.empty()){
-            int t = q.front();
+
+        suspicious.set(k);
+
+        while (!q.empty()) {
+            int u = q.front();
             q.pop();
-            for(auto &ch: adj[t]){
-                if(!vis[ch]){
-                    vis[ch] = 1;
-                    q.push(ch);
+            for (int v : edges[u]) {
+                inDegree[v]--;
+
+                if (!suspicious.test(v)) {
+                    q.push(v);
+                    suspicious.set(v);
                 }
             }
         }
-        vector<int>ans;
-        for(auto &i: ed){
-            int u = i[0], v = i[1];
-            if(vis[u]^vis[v]){
-                for(int j=0; j<n; j++){
-                    ans.push_back(j);
-                }
-                return ans;
-            }   
-        }
-        for(int i=0; i<n; i++){
-            if(!vis[i]){
-                ans.push_back(i);
+
+        bool canRemoveAll = true;
+        vector<int> remaining;
+
+        for (int i = 0; i < n; i++) {
+            if (suspicious.test(i) && inDegree[i] > 0) {
+                canRemoveAll = false;
+                break;
+            } else if (!suspicious.test(i)) {
+                remaining.push_back(i);
             }
         }
-        return ans;
+
+        if (!canRemoveAll) {
+            vector<int> allNodes(n);
+            iota(allNodes.begin(), allNodes.end(), 0);
+            return allNodes;
+        }
+
+        return remaining;
     }
 };
