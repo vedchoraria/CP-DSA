@@ -1,42 +1,40 @@
 class Solution {
-    string ans;
-    void find(int i, string &str, string &t, vector<int>&f){
-        int n = t.size();
-        if(i == n){
-            return;
+public:
+    string lexGreaterPermutation(string s, string target) {
+        vector<int> cnt(26);
+        for (int i = 0; i < s.size(); i++) {
+            cnt[s[i] - 'a']++;
+            cnt[target[i] - 'a']--;
         }
-        if(f[t[i]-'a']){
-            str += t[i];
-            f[t[i]-'a']--;
-            find(i+1, str, t, f);
-            str.pop_back();
-            f[t[i]-'a']++;
-        }
-        for(int j=t[i]-'a'+1; j<26; j++){
-            if(f[j]){
-                string temp = str;
-                temp += ('a'+j);
-                f[j]--;
-                for(int k=0; k<26; k++){
-                    char ch = 'a'+k;
-                    for(int l=0; l<f[k]; l++){
-                        temp += ch;
-                    }
+
+        // Try from right to left
+        for (int i = s.size() - 1; i >= 0; i--) {
+            int b = target[i] - 'a';
+            cnt[b]++;  // Reversal of consumption
+                       // Check if the prefix can fully match
+            if (*min_element(cnt.begin(), cnt.end()) < 0) {
+                continue;
+            }
+            // Find the smallest available character larger than b.
+            for (int j = b + 1; j < 26; j++) {
+                if (cnt[j]) {
+                    cnt[j]--;
+                    target[i] = 'a' + j;
+                    target.resize(i + 1);
+                    return target + getMinString(cnt);
                 }
-                if(ans == "") ans = temp;
-                else ans = min(ans, temp);
-                
             }
         }
-        return;
+
+        return "";
     }
-public:
-    string lexGreaterPermutation(string s, string t) {
-        vector<int>f(26, 0);
-        for(auto &i: s) f[i-'a']++;
-        string str = "";
-        ans = "";
-        find(0, str, t, f);
-        return ans;
+
+    // Get the lexicographically smallest string (in ascending order)
+    string getMinString(const vector<int>& cnt) {
+        string res;
+        for (int i = 0; i < 26; i++) {
+            res.append(cnt[i], 'a' + i);
+        }
+        return res;
     }
 };
