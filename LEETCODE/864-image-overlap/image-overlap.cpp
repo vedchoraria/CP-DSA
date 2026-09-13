@@ -1,57 +1,62 @@
 class Solution {
+    static void print_imgs(const vector<uint32_t>& img1, const vector<uint32_t>& img2, const size_t extent)
+    {
+        for (const auto row : img1)
+            println(cout, "{:0{}b}", row, extent);
+
+        cout << endl;
+
+        for (const auto row : img2)
+            println(cout, "{:0{}b}", row, extent);
+    }
+
 public:
-    int largestOverlap(vector<vector<int>>& img1, vector<vector<int>>& img2) {
-        /*
-        specific part of matrix remains same
-        n = 30
-        n^4 = 8.1*1e5 * 900  = 10^8.8 bruteforce wont work
-        n = 30 
-        we can represnt in form of nums
-        */
-        int n = img1.size();
-        vector<int>base, match;
-        for(int i=0; i<n; i++){
-            int nm = 0, nm2 = 0;
-            for(int j=0; j<n; j++){
-                nm <<= 1;
-                if(img1[i][j]) nm |= 1;
-                nm2 <<= 1;
-                if(img2[i][j]) nm2 |= 1;
+    int largestOverlap(vector<vector<int>>& img1, vector<vector<int>>& img2)
+    {
+        const int extent = img1.size();
+
+        // Step 1.  Build the bitwise arrays.
+
+        vector<uint32_t> bits1(extent);
+        vector<uint32_t> bits2(extent);
+
+        for (int row = 0; row < extent; ++row)
+            for (int col = extent - 1; col >= 0; --col) {
+                bits1[row] = (bits1[row] << 1) | img1[row][col];
+                bits2[row] = (bits2[row] << 1) | img2[row][col];
             }
-            base.push_back(nm);
-            match.push_back(nm2);
-        }
-    
-        vector<int>temp(n);
-        auto get = [&]() -> int {
-            int mx = 0;
-            for(int i=0; i<n; i++){
-                for(int j=i; j<n; j++){
-                    int len = j-i+1;
-                    int cnt = 0, id = i;
-                    for(int k=0; k+len-1<n; k++){
-                        id = i;
-                        cnt = 0;
-                        for(int l=k; l<k+len; l++, id++){
-                            cnt += __builtin_popcount(temp[id] & match[l]);
-                        }
-                        mx = max(mx, cnt);
-                    }
+
+        // Step 2.  Move through all possible (x,y) translations.
+        // An nxn matrix may have n in all directions.
+
+        int max_overlap = 0;
+
+        for (int dx = -extent + 1; dx < extent; ++dx)
+            for (int dy = -extent + 1; dy < extent; ++dy) {
+
+                int current_overlap = 0;
+
+                // Vertical shift.
+                for (int r1_idx = 0; r1_idx < extent; ++r1_idx) {
+                    const int r2_idx = r1_idx + dy;
+                    if (r2_idx < 0 || r2_idx >= extent)
+                        continue;
+
+                    auto r1 = bits1[r1_idx]; // The row to translate
+                    const auto r2 = bits2[r2_idx]; // The equivalent row in the test image, under the V shift.
+
+                    // Horizontal shift.
+                    if (dx >= 0)
+                        r1 >>= dx;
+                    else
+                        r1 <<= -dx;
+
+                    current_overlap += popcount(r1 & r2);
                 }
+                
+                max_overlap = max(max_overlap, current_overlap);
             }
-            return mx;
-        };
-        int mx = 0;
-        for(int i=0; i<=n-1; i++){
-            // right shift
-            for(int j=0; j<n; j++) temp[j] = base[j]>>i;
-            mx = max(mx, get());
-        }
-        for(int i=1; i<=n-1; i++){
-            // left shift
-            for(int j=0; j<n; j++) temp[j] = base[j]<<i;
-            mx = max(mx, get());
-        }
-        return mx;
+
+        return max_overlap;
     }
 };
